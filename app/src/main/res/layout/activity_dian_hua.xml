@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_dian_hua"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/shape_gradient"
+    tools:context="com.example.theone.DianHuaActivity">
+
+
+     <EditText
+         android:id="@+id/search_edit"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:background="@drawable/edit_item"
+         android:hint="搜索"
+         />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:id="@+id/mylistview">
+    </ListView>
+
+
+</LinearLayout>

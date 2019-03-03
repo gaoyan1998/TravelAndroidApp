@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_tian_qi"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#3e89a9"
+    android:orientation="vertical"
+    tools:context="com.example.theone.TianQiActivity">
+
+    <TextView
+        android:id="@+id/tianqi_paomadeng_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:ellipsize="marquee"
+        android:textColor="#fff"
+        android:singleLine="true"
+        android:scrollHorizontally="true"
+        android:focusableInTouchMode="true"
+        android:focusable="true">
+
+    </TextView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/top_bar">
+
+        <TextView
+            android:id="@+id/tianqi_date_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:textColor="#fff"
+            android:gravity="center"
+            android:text="2018年1月11日"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tianqi_humi_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:textColor="#fff"
+            android:gravity="center"
+            android:text="13°C~10°C"
+            android:textSize="16sp" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@drawable/top_bar"
+        android:orientation="horizontal">
+
+        <EditText
+            android:id="@+id/tianqi_diqu_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="长沙"
+            android:background="@drawable/edit_item"
+            android:layout_weight="1" />
+
+        <ImageView
+            android:id="@+id/tianqi_sousuo_btn"
+            android:layout_width="40dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/sousuo" />
+
+      </LinearLayout>
+
+      <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/top_bar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/tianqi_imageview"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:src="@drawable/weathericon_condition_01" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/tianqi_state_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:textColor="#fff"
+                    android:text="晴"
+                    android:textSize="24dp" />
+
+                <TextView
+                    android:id="@+id/tianqi_feng_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="#fff"
+                    android:gravity="center"
+                    android:text="北风小于3级"
+                    android:textSize="24dp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/top_bar">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textColor="#fff"
+            android:text="天气描述："
+            android:textSize="20dp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@drawable/top_bar"
+        android:padding="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:text="紫外线强度："
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/tianqi_ziwaixian_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:text="中等"
+            android:textSize="20dp" />
+
+    </LinearLayout>
+</LinearLayout>
