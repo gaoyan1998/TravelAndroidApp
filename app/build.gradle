@@ -31,5 +31,6 @@ dependencies {
     implementation files('libs/volley.jar')
     implementation 'com.squareup.okhttp3:okhttp:3.10.0'
     implementation 'com.tencent:mmkv:1.0.10'
+    implementation 'com.zhy:okhttputils:2.6.2'
 
 }

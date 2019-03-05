@@ -3,10 +3,14 @@ package com.ikiler.travel.http;
 
 import android.os.Handler;
 import android.os.Looper;
+import android.util.Log;
 
 import com.tencent.mmkv.MMKV;
+import com.zhy.http.okhttp.OkHttpUtils;
+import com.zhy.http.okhttp.callback.StringCallback;
 
 import java.io.IOException;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -48,6 +52,34 @@ public class OkHttpUtil {
         });
     }
 
+    public static void post(String url, Map<String, String> paramters,
+                            final DataCallBack callback) {
+        try {
+            OkHttpUtils
+                    .post()
+                    .url(url)
+                    .addHeader("name",mmkv.decodeString("name",""))
+                    .addHeader("pwd",mmkv.decodeString("pwd",""))
+                    .params(paramters)
+                    .build()
+                    .execute(new StringCallback() {
+                        @Override
+                        public void onError(Call call, Exception e, int id) {
+                            Log.e("888", "失败！" + e.toString());
+                            callback.calback("",false);
+                        }
+
+                        @Override
+                        public void onResponse(String responseString, int id) {
+                            if (callback != null) {
+                                callback.calback(responseString,true);
+                            }
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
 
     interface DataCallBack{
