@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">TheOne</string>
+    <string name="rember_pwd">记住密码</string>
+
     <array name="ms_info">
         <item>
             糊汤粉是与油条相配的小吃品种，凡卖糊汤粉，必卖油条。田恒启粉馆是一家主营武汉风味糊汤粉的小吃店，其糊汤是用鲜鱼配料熬制的鱼汤加淀粉而成，在糊汤内再配以胡椒、香葱，以其糊汤微稠、米粉洁白、细长有劲、鱼香汁浓、滋味鲜美而名扬武汉三镇。

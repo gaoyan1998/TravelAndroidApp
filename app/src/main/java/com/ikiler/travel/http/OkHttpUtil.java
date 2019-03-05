@@ -23,33 +23,38 @@ import okhttp3.Response;
 public class OkHttpUtil {
 
     static OkHttpClient client;
-    static Handler handler;
     static MMKV mmkv = MMKV.defaultMMKV();
 
     static {
         client = new OkHttpClient();
-        handler = new Handler(Looper.getMainLooper());
     }
+    public static void postJsonBody(String url,String jsonContent,final DataCallBack callback){
+        try {
+            OkHttpUtils
+                    .postString()
+                    .addHeader("name",mmkv.decodeString("name",""))
+                    .addHeader("pwd",mmkv.decodeString("pwd",""))
+                    .url(url)
+                    .mediaType(MediaType.parse("application/json; charset=utf-8")) //设置post的字符串为json字符串并设置编码
+                    .content(jsonContent)
+                    .build()
+                    .execute(new StringCallback() {
+                        @Override
+                        public void onError(Call call, Exception e, int id) {
+                            Log.e("888", "失败！" + e.toString());
+                            callback.calback("",false);
+                        }
 
-    public static void postWithJson(String url, String json, final DataCallBack callBack){
-        Request request = new Request.Builder()
-                .post(RequestBody.create(MediaType.parse("application/json"),json))
-                .addHeader("name",mmkv.decodeString("name",""))
-                .addHeader("pwd",mmkv.decodeString("pwd",""))
-                .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                callBack.calback("",false);
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                if (response.isSuccessful()){
-                    callBack.calback(response.body().string(),true);
-                }
-            }
-        });
+                        @Override
+                        public void onResponse(String responseString, int id) {
+                            if (callback != null) {
+                                callback.calback(responseString,true);
+                            }
+                        }
+                    });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void post(String url, Map<String, String> paramters,
