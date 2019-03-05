@@ -4,6 +4,8 @@ package com.ikiler.travel.http;
 import android.os.Handler;
 import android.os.Looper;
 
+import com.tencent.mmkv.MMKV;
+
 import java.io.IOException;
 
 import okhttp3.Call;
@@ -18,7 +20,7 @@ public class OkHttpUtil {
 
     static OkHttpClient client;
     static Handler handler;
-    static String name,pwd;
+    static MMKV mmkv = MMKV.defaultMMKV();
 
     static {
         client = new OkHttpClient();
@@ -28,8 +30,8 @@ public class OkHttpUtil {
     public static void postWithJson(String url, String json, final DataCallBack callBack){
         Request request = new Request.Builder()
                 .post(RequestBody.create(MediaType.parse("application/json"),json))
-                .addHeader("name",name)
-                .addHeader("pwd",pwd)
+                .addHeader("name",mmkv.decodeString("name",""))
+                .addHeader("pwd",mmkv.decodeString("pwd",""))
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override

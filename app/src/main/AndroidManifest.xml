@@ -3,7 +3,6 @@
     package="com.ikiler.travel">
 
     <application
-
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -12,6 +11,7 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="P3G0czAdwF4MCG5dhLM0yBEOgNkqBPUc" />
+
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -26,10 +26,20 @@
         <activity android:name=".DiTuActivity" />
         <activity android:name=".JianDianActivity" />
         <activity android:name=".MeishiDemo" />
-        <activity android:name=".BijiBianjiActivity"/>
-        <service android:name="com.baidu.location.f"
+        <activity android:name=".BijiBianjiActivity" />
+
+        <service
+            android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote"/>
+            android:process=":remote" />
+
+        <activity android:name=".ui.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
