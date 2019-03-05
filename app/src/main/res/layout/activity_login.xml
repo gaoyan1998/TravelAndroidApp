@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white_login">
@@ -56,8 +56,7 @@
                 android:background="@null"
                 android:drawableLeft="@mipmap/de_btn_main_personal_information"
                 android:ems="10"
-                android:hint="手机号"
-                android:inputType="phone"
+                android:hint="用户名"
                 android:textColorHint="@color/base_color_text_gray"
                 android:textCursorDrawable="@null"
                 android:textSize="14sp" />
@@ -69,7 +68,7 @@
             android:layout_below="@+id/phone_layout"
             android:layout_alignParentStart="true"
             android:background="@mipmap/login_line"
-            android:orientation="horizontal"></LinearLayout>
+            android:orientation="horizontal"/>
 
         <LinearLayout
             android:id="@+id/password_layout"

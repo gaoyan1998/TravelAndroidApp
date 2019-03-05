@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
+    <color name="colorPrimary">#1E6DE9</color>
+    <color name="colorPrimaryDark">#1E6DE9</color>
     <color name="colorAccent">#D81B60</color>
+
         <color name="base_actionbar_bg">#f5f5f5</color>
         <color name="base_action_bar_title_color">#2f2725</color>
         <color name="base_tab_indicator_text_color">#f82c22</color>

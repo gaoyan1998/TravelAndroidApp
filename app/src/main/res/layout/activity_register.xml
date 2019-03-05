@@ -15,18 +15,6 @@
         android:orientation="horizontal"
         android:padding="10dp">
 
-        <Button
-            android:id="@+id/textView_back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/def_button_bg"
-            android:text="返回"
-            android:onClick="backClick"
-            android:textColor="@color/white"
-            />
-
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
@@ -34,10 +22,9 @@
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_gravity="center|top"
-            android:text="重置密码"
+            android:text="注册"
             android:textColor="@color/white"
-            android:textSize="22sp"
-            />
+            android:textSize="22sp" />
 
     </RelativeLayout>
 
@@ -53,31 +40,49 @@
         android:layout_marginRight="20dp"
         android:layout_marginBottom="20dp"
         android:gravity="center">
-
         <LinearLayout
+            android:id="@+id/name_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:orientation="horizontal"
+            android:padding="15dp">
+
+            <EditText
+                android:id="@+id/editText_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@null"
+                android:drawableLeft="@mipmap/de_btn_main_privacy"
+                android:ems="4"
+                android:hint="用户名"
+                android:textColorHint="@color/base_color_text_gray"
+                android:textCursorDrawable="@null"
+                android:textSize="14dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_below="@id/name_layout"
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:id="@+id/phone_layout"
             android:gravity="center_vertical"
             android:padding="15dp">
 
             <EditText
+                android:id="@+id/editText_phone"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:ems="10"
-                android:textSize="14dp"
-                android:background="@null"
-                android:hint="手机号"
-                android:textColorHint="@color/base_color_text_gray"
-                android:drawableLeft="@mipmap/de_btn_main_personal_information"
-                android:id="@+id/editText_phone"
                 android:layout_weight="1"
+                android:background="@null"
+                android:drawableLeft="@mipmap/de_btn_main_personal_information"
+                android:ems="10"
+                android:hint="邮箱"
+                android:inputType="textEmailAddress"
+                android:textColorHint="@color/base_color_text_gray"
                 android:textCursorDrawable="@null"
-                />
+                android:textSize="14dp" />
 
             <Button
                 android:layout_width="wrap_content"
@@ -100,28 +105,36 @@
         </LinearLayout>
 
         <LinearLayout
-            android:orientation="horizontal"
+            android:id="@+id/validate_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/phone_layout"
             android:layout_alignParentStart="true"
-            android:id="@+id/validate_layout"
+            android:orientation="horizontal"
             android:padding="15dp">
 
             <EditText
+                android:id="@+id/editText_validate_number"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="number"
-                android:textSize="14dp"
-                android:ems="4"
-                android:drawableLeft="@mipmap/de_btn_main_privacy"
                 android:background="@null"
-                android:textColorHint="@color/base_color_text_gray"
+                android:drawableLeft="@mipmap/de_btn_main_privacy"
+                android:ems="4"
                 android:hint="验证码"
+                android:inputType="number"
+                android:textColorHint="@color/base_color_text_gray"
                 android:textCursorDrawable="@null"
-                android:id="@+id/editText_validate_number"
-                />
+                android:textSize="14dp" />
         </LinearLayout>
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="@mipmap/login_line"
+            android:layout_below="@+id/name_layout"
+            android:layout_alignParentStart="true">
+        </LinearLayout>
+
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -141,18 +154,18 @@
             android:padding="15dp">
 
             <EditText
+                android:id="@+id/editText_password_new"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
+                android:layout_weight="1"
+                android:background="@null"
                 android:drawableLeft="@mipmap/de_btn_main_privacy"
                 android:ems="10"
-                android:textSize="14sp"
-                android:background="@null"
-                android:hint="新密码"
-                android:textCursorDrawable="@null"
+                android:hint="密码"
+                android:inputType="textPassword"
                 android:textColorHint="@color/base_color_text_gray"
-                android:id="@+id/editText_password_new"
-                android:layout_weight="1"/>
+                android:textCursorDrawable="@null"
+                android:textSize="14sp" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -163,21 +176,23 @@
                 android:onClick="showHidePasswordClick"
                 />
         </LinearLayout>
+
+
     </RelativeLayout>
 
     <Button
+        android:id="@+id/button2_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="重置密码"
-        android:id="@+id/button2_register"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:layout_below="@+id/input_layout"
         android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:background="@drawable/login_button_bg"
-        android:textColor="@color/white"
         android:onClick="resetPasswordClick"
-        android:textSize="16dp"/>
+        android:text="注册"
+        android:textColor="@color/white"
+        android:textSize="16dp" />
 
 
 

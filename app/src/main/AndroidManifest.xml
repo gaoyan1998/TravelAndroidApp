@@ -8,6 +8,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
@@ -15,13 +16,7 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="P3G0czAdwF4MCG5dhLM0yBEOgNkqBPUc" />
 
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".MainActivity"></activity>
         <activity android:name=".MeishiActivity" />
         <activity android:name=".BijiActivity" />
         <activity android:name=".DianHuaActivity" />
@@ -43,7 +38,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.Register"></activity>
+        <activity android:name=".ui.Register">
+
+        </activity>
     </application>
 
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

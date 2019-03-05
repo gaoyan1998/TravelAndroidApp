@@ -29,7 +29,6 @@ public class LoginActivity extends BaseActivity {
 
     private EditText editText_password,editText_phone;
     private ImageView imageView_show_password;
-    private SharedPreferences.Editor editor;
     private CheckBox rember_pwd_box;
 
     @Override
@@ -65,19 +64,6 @@ public class LoginActivity extends BaseActivity {
     }
 
     /**
-     * 登录失败显示消息
-     * */
-    @SuppressLint("HandlerLeak")
-    Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            AlertDialog.Builder dialog = new AlertDialog.Builder(LoginActivity.this);
-            dialog.setMessage("用户名和密码错误");
-            dialog.show();
-        }
-    };
-    /**
      * 登录事件方法
      * @param view
      */
@@ -106,14 +92,19 @@ public class LoginActivity extends BaseActivity {
         user.setPwd(password);
         UserManager.Login(user, new UserManager.CallBack() {
             @Override
-            public void Calback(boolean flage) {
+            public void Calback(User user1,String msg) {
+                if (user1==null){
+                    showToast(msg);
+                    return;
+                }
+                showToast(msg);
                 if (rember_pwd_box.isChecked()) {
                     getMmkv().encode("name",phone);
                     getMmkv().encode("pwd",password);
                     getMmkv().commit();
                 }
                 App app = (App) getApplication();
-                app.setUser(user);
+                app.setUser(user1);
                 startActivity(new Intent(LoginActivity.this, MainActivity.class));
                 finish();
             }
