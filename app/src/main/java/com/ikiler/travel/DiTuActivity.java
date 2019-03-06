@@ -36,7 +36,7 @@ public class DiTuActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
+     //   getSupportActionBar().hide();
         locationClient = new LocationClient(getApplicationContext());
         locationClient.registerLocationListener(new MyLocationListener());
         SDKInitializer.initialize(getApplicationContext());

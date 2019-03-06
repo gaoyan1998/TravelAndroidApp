@@ -35,7 +35,7 @@ public class MeishiActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meishi);
-        getSupportActionBar().hide();
+      //  getSupportActionBar().hide();
         GridView gridView = (GridView) findViewById(R.id.mygridview);
         getData();
         gridView.setAdapter(new MyBaseAdapter()  );

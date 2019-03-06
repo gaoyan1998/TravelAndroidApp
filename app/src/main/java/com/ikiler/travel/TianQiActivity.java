@@ -39,7 +39,7 @@ public class TianQiActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
+       // getSupportActionBar().hide();
         setContentView(R.layout.activity_tian_qi);
         tianqi_date_tv = (TextView) findViewById(R.id.tianqi_date_tv);
         tianqi_humi_tv = (TextView) findViewById(R.id.tianqi_humi_tv);

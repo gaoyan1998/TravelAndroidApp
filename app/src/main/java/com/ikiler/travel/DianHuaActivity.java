@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
- import android.text.Editable;
+import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
@@ -15,7 +15,6 @@ import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import java.util.List;
 import java.util.Map;
 
@@ -33,7 +32,7 @@ public class DianHuaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dian_hua);
-        getSupportActionBar().hide();
+     //   getSupportActionBar().hide();
         listView = (ListView) findViewById(R.id.mylistview);
         editText = (EditText) findViewById(R.id.search_edit);
         sqlUtil = new DianHuaSQLUtil(DianHuaActivity.this);
