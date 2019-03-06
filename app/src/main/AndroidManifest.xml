@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.ikiler.travel">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".util.App"
         android:allowBackup="true"
@@ -16,7 +18,7 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="P3G0czAdwF4MCG5dhLM0yBEOgNkqBPUc" />
 
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".MainActivity" />
         <activity android:name=".MeishiActivity" />
         <activity android:name=".BijiActivity" />
         <activity android:name=".DianHuaActivity" />
@@ -38,10 +40,16 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.Register">
-
+        <activity android:name=".ui.Register"></activity>
+        <activity
+            android:name=".ui.MainContent"
+            android:label="@string/title_activity_main_content"
+            android:parentActivityName=".Base.BaseActivity"
+            android:theme="@style/AppTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ikiler.travel.Base.BaseActivity" />
         </activity>
     </application>
 
-    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

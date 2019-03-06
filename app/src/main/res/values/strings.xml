@@ -61,5 +61,12 @@
     <string name="sanxia">       三峡人家，依山傍水，风情如画：传统的三峡吊脚楼点缀于山水之间，久违的古帆船、乌篷船安静地泊在三峡人家门前，溪边少女挥着棒槌在清洗衣服，江面上悠然的渔家在撒网打鱼……千百年来流传不衰的各种习俗风情体现着峡江人民的质朴好客。走进峡江吊脚楼，峡江妹子载歌载舞，手中的红绣球飘飘欲落，这时清秀的三峡少女为您捧上一杯峡州清茶，您会觉得如梦似幻、亲切怡然。</string>
     <string name="qingjiang">   清江画廊风景区位于湖北宜昌的长阳土家族自治县，涵盖隔河岩大坝以上至水布垭盐池温泉，沿清江一线的所有旅游景观及景区景点。重点打造了倒影峡、仙人寨、武落钟离山等三大景点。清江画廊风景区属湖北省省级风景名胜区和旅游度假区，也是国家林业局批准建设的国家森林公园和湖北省旅游局命名的全省四大甲级旅游风景区之一。2012年12月19日，湖北宜昌市长阳清江画廊旅游度假区收到国家旅游局景观质量等级评定委员会函件，确认清江画廊成为国家AAAAA级景区。 清江是长江的一颗明珠，发源于鄂西山间洞泉，由两千多条册溪洞泉汇集而成，</string>
     <string name="huangpi">     黄陂区是湖北第一台乡，第二侨乡，中国泥塑之乡。黄陂区与武汉市中心城区一水相依，五桥相连。黄陂区位于湖北省东部偏北，武汉市以北，花木兰的故乡,是中华木兰文化之源；境内商代遗址盘龙城，是武汉城市之根；“无陂不成镇”之说早已蜚声海外。黄陂人文荟萃、山清水秀、风景独好，旅游资源十分丰富，有距今年3500年历史的商代遗址盘龙城，被认证为“大武汉城市之根”。</string>
+    <string name="title_activity_main_content">MainContent</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
 
 </resources>
