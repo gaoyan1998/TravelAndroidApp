@@ -5,6 +5,7 @@ import com.ikiler.travel.Model.bean.Code;
 import com.ikiler.travel.Model.bean.Food;
 import com.ikiler.travel.ui.Food.FoodListActivity;
 import com.ikiler.travel.util.GsonUtil;
+import com.ikiler.travel.util.HttpConfig;
 import com.ikiler.travel.util.OkHttpUtil;
 
 import java.util.HashMap;
@@ -14,8 +15,6 @@ import java.util.Map;
 import androidx.lifecycle.ViewModelProviders;
 
 public class APIconfig {
-
-//    FoodViewModel model = ViewModelProviders.of(FoodListActivity.this).get(FoodViewModel.class);
 
     public static final String WeatherUrl = "https://free-api.heweather.net/s6/weather";
 
@@ -41,7 +40,8 @@ public class APIconfig {
 //    public static final String Login = BaseUrl +"";
 
 
-    public static void getFoods(final FoodViewModel model) {
+    public static void refershFoods() {
+        final FoodViewModel model = FoodViewModel.instance();
         Map<String, String> map = new HashMap<>();
         map.put("action", "select");
         OkHttpUtil.post(APIconfig.Food, map, new OkHttpUtil.DataCallBack() {
@@ -55,7 +55,23 @@ public class APIconfig {
             }
         });
     }
-
+    public static void deleteFood(int id){
+        final FoodViewModel model = FoodViewModel.instance();
+        Map<String, String> map = new HashMap<>();
+        map.put("action", "delete");
+        map.put("id",id+"");
+        OkHttpUtil.post(APIconfig.Food, map, new OkHttpUtil.DataCallBack() {
+            @Override
+            public void calback(String data, boolean flage) {
+                if (flage) {
+                    Code code = GsonUtil.GsonToBean(data, Code.class);
+                    if (code.getCode() == HttpConfig.REQUEST_SUCCESS){
+                        refershFoods();
+                    }
+                }
+            }
+        });
+    }
 
 }
 

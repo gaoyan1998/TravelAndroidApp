@@ -3,6 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <item
+        android:id="@+id/action_editable"
+        android:orderInCategory="100"
+        android:icon="@drawable/region_edit"
+        android:title="可编辑"
+        app:showAsAction="always" />
+    <item
         android:id="@+id/action_camera"
         android:orderInCategory="100"
         android:icon="@drawable/widget_camera"
