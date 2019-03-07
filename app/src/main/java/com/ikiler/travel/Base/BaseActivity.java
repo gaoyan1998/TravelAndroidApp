@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.ikiler.travel.Model.User;
+import com.ikiler.travel.Model.bean.User;
 import com.tencent.mmkv.MMKV;
 
 import androidx.annotation.Nullable;

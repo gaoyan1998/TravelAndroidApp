@@ -10,7 +10,7 @@ import android.util.Log;
 
 import com.google.android.material.navigation.NavigationView;
 import com.ikiler.travel.APIconfig;
-import com.ikiler.travel.Model.WeatherBean;
+import com.ikiler.travel.Model.bean.WeatherBean;
 import com.ikiler.travel.MainActivity;
 import com.ikiler.travel.R;
 import com.ikiler.travel.ui.Food.FoodListActivity;

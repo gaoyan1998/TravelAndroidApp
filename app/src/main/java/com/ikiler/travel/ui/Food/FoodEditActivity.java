@@ -4,29 +4,24 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.Spannable;
-import android.text.SpannableString;
 import android.text.TextUtils;
-import android.text.style.ImageSpan;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.ikiler.travel.APIconfig;
 import com.ikiler.travel.Base.BaseActivity;
-import com.ikiler.travel.BijiBianjiActivity;
-import com.ikiler.travel.Model.Code;
-import com.ikiler.travel.Model.Food;
+import com.ikiler.travel.Model.bean.Code;
+import com.ikiler.travel.Model.bean.Food;
 import com.ikiler.travel.R;
 import com.ikiler.travel.util.GsonUtil;
 import com.ikiler.travel.util.HttpConfig;
@@ -43,10 +38,11 @@ import androidx.core.content.FileProvider;
 
 public class FoodEditActivity extends BaseActivity {
 
+    public final static int TAKE_PHOTO=1;
+
     private EditText name;
     private EditText detail;
     private ImageView img;
-    public final static int TAKE_PHOTO=1;
     private Uri imageUri;
     private ProgressDialog dialog;
 
@@ -81,7 +77,7 @@ public class FoodEditActivity extends BaseActivity {
     }
 
     private void takePhoto() {
-        File outputImage = new File(getExternalCacheDir(),"output_image.jpg");
+        File outputImage = new File(Environment.getExternalStorageDirectory(),"output_image.jpg");
         try{
             if (outputImage.exists()){
                 outputImage.delete();

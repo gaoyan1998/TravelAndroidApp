@@ -1,4 +1,4 @@
-package com.ikiler.travel.Model;
+package com.ikiler.travel.Model.bean;
 
 public class User {
     private int id;

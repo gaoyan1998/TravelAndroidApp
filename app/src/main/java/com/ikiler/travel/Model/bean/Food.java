@@ -1,4 +1,4 @@
-package com.ikiler.travel.Model;
+package com.ikiler.travel.Model.bean;
 
 /**
  * Created by ikiler on 2019/2/24.

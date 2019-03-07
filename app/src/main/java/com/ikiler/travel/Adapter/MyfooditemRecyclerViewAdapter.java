@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.ikiler.travel.Model.Food;
+import com.ikiler.travel.Model.bean.Food;
 import com.ikiler.travel.Model.OnListFragmentInteractionListener;
 import com.ikiler.travel.R;
 

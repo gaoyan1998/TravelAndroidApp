@@ -2,7 +2,7 @@ package com.ikiler.travel.util;
 
 import android.app.Application;
 
-import com.ikiler.travel.Model.User;
+import com.ikiler.travel.Model.bean.User;
 import com.tencent.mmkv.MMKV;
 
 public class App extends Application {

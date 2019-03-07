@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.ikiler.travel.Base.BaseActivity;
-import com.ikiler.travel.Model.User;
+import com.ikiler.travel.Model.bean.User;
 import com.ikiler.travel.Control.UserManager;
 import com.ikiler.travel.MainActivity;
 import com.ikiler.travel.R;
@@ -98,7 +98,7 @@ public class LoginActivity extends BaseActivity {
                 }
                 App app = (App) getApplication();
                 app.setUser(user1);
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                startActivity(new Intent(LoginActivity.this, MainContent.class));
                 finish();
             }
         });
