@@ -18,7 +18,7 @@ public class MeishiDemo extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_meishi_demo);
-        getSupportActionBar().hide();
+//        getSupportActionBar().hide();
         imageView = (ImageView) findViewById(R.id.meishitp);
         textView = (TextView) findViewById(R.id.meishimz);
         Intent intent = getIntent();

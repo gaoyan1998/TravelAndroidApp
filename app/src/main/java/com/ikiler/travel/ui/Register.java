@@ -10,8 +10,8 @@ import android.widget.ImageView;
 
 import com.ikiler.travel.APIconfig;
 import com.ikiler.travel.Base.BaseActivity;
-import com.ikiler.travel.Bean.Code;
-import com.ikiler.travel.Bean.User;
+import com.ikiler.travel.Model.Code;
+import com.ikiler.travel.Model.User;
 import com.ikiler.travel.R;
 import com.ikiler.travel.util.OkHttpUtil;
 import com.ikiler.travel.util.AppUtils;

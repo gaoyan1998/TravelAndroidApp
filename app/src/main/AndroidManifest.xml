@@ -15,6 +15,9 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <meta-data
+            android:name="android.max_aspect"
+            android:value="1.778" />
+        <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="P3G0czAdwF4MCG5dhLM0yBEOgNkqBPUc" />
 
@@ -34,22 +37,34 @@
             android:process=":remote" />
 
         <activity android:name=".ui.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
-        <activity android:name=".ui.Register"></activity>
+        <activity android:name=".ui.Register" />
         <activity
             android:name=".ui.MainContent"
-            android:label="@string/title_activity_main_content"
+            android:label="@string/app_name"
             android:parentActivityName=".Base.BaseActivity"
             android:theme="@style/AppTheme">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ikiler.travel.Base.BaseActivity" />
         </activity>
+        <activity android:name=".ui.Splash">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ui.Food.FoodListActivity"
+            android:label="美食管理" />
     </application>
 
 </manifest>

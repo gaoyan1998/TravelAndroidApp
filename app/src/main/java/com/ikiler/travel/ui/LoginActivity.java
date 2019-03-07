@@ -1,14 +1,7 @@
 package com.ikiler.travel.ui;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
@@ -18,7 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.ikiler.travel.Base.BaseActivity;
-import com.ikiler.travel.Bean.User;
+import com.ikiler.travel.Model.User;
 import com.ikiler.travel.Control.UserManager;
 import com.ikiler.travel.MainActivity;
 import com.ikiler.travel.R;

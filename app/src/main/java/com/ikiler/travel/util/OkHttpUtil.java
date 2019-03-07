@@ -101,14 +101,15 @@ public class OkHttpUtil {
 
                         @Override
                         public void onResponse(String responseString, int id) {
-                            Log.i("NetInfo",responseString);
+                            Log.e("NetInfo",responseString);
                             if (callback != null) {
                                 callback.calback(responseString,true);
                             }
                         }
                     });
+            Log.e("NetInfo","send ok");
         } catch (Exception e) {
-            e.printStackTrace();
+            Log.e("NetInfo","send err:"+e);
         }
     }
 
