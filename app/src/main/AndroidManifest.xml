@@ -65,6 +65,8 @@
         <activity
             android:name=".ui.Food.FoodListActivity"
             android:label="美食管理" />
+        <activity android:name=".ui.Food.FoodEditActivity"
+            android:label="美食编辑"></activity>
     </application>
 
 </manifest>

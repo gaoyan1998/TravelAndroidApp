@@ -34,6 +34,7 @@
             <TextView
                 android:layout_marginTop="5dp"
                 android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="友朋设宴庆云楼，\n美食十二配郎酒。\n觚觥交错杯杯尽，\n门前石狮口水流"

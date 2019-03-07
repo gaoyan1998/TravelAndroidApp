@@ -1,27 +1,21 @@
 package com.ikiler.travel.ui.Food;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.ikiler.travel.APIconfig;
 import com.ikiler.travel.Base.BaseActivity;
-import com.ikiler.travel.MeishiIcons;
 import com.ikiler.travel.Model.Code;
 import com.ikiler.travel.Model.Food;
 import com.ikiler.travel.Model.OnListFragmentInteractionListener;
 import com.ikiler.travel.R;
-import com.ikiler.travel.ui.fragement.MyfooditemRecyclerViewAdapter;
+import com.ikiler.travel.Adapter.MyfooditemRecyclerViewAdapter;
 import com.ikiler.travel.util.GsonUtil;
 import com.ikiler.travel.util.OkHttpUtil;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,8 +47,7 @@ public class FoodListActivity extends BaseActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                startActivity(new Intent(getApplicationContext(),FoodEditActivity.class));
             }
         });
     }

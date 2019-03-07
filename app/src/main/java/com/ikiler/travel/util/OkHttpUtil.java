@@ -9,11 +9,13 @@ import com.tencent.mmkv.MMKV;
 import com.zhy.http.okhttp.OkHttpUtils;
 import com.zhy.http.okhttp.callback.StringCallback;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -50,14 +52,18 @@ public class OkHttpUtil {
                 return cookies != null ? cookies : new ArrayList<Cookie>();
             }
         };
+        client = new OkHttpClient.Builder().cookieJar(cookieJar)
+                .connectTimeout(60000, TimeUnit.SECONDS)
+                .readTimeout(60000,TimeUnit.SECONDS)
+                .build();
     }
-    public static void postJsonBody(String url,String jsonContent,final DataCallBack callback){
+
+    public static void postJsonBody(String url, String jsonContent, final DataCallBack callback) {
         try {
-            client = new OkHttpClient.Builder().cookieJar(cookieJar).build();
             OkHttpUtils.initClient(client)
                     .postString()
-                    .addHeader("name",mmkv.decodeString("name",""))
-                    .addHeader("pwd",mmkv.decodeString("pwd",""))
+                    .addHeader("name", mmkv.decodeString("name", ""))
+                    .addHeader("pwd", mmkv.decodeString("pwd", ""))
                     .url(url)
                     .mediaType(MediaType.parse("application/json; charset=utf-8")) //设置post的字符串为json字符串并设置编码
                     .content(jsonContent)
@@ -66,14 +72,14 @@ public class OkHttpUtil {
                         @Override
                         public void onError(Call call, Exception e, int id) {
                             Log.e("NetInfo", "失败！" + e.toString());
-                            callback.calback("",false);
+                            callback.calback("", false);
                         }
 
                         @Override
                         public void onResponse(String responseString, int id) {
-                            Log.i("NetInfo",responseString);
+                            Log.i("NetInfo", responseString);
                             if (callback != null) {
-                                callback.calback(responseString,true);
+                                callback.calback(responseString, true);
                             }
                         }
                     });
@@ -85,36 +91,73 @@ public class OkHttpUtil {
     public static void post(String url, Map<String, String> paramters,
                             final DataCallBack callback) {
         try {
-            OkHttpUtils
+            OkHttpUtils.initClient(client)
                     .post()
                     .url(url)
-                    .addHeader("name",mmkv.decodeString("name",""))
-                    .addHeader("pwd",mmkv.decodeString("pwd",""))
+                    .addHeader("name", mmkv.decodeString("name", ""))
+                    .addHeader("pwd", mmkv.decodeString("pwd", ""))
                     .params(paramters)
                     .build()
                     .execute(new StringCallback() {
                         @Override
                         public void onError(Call call, Exception e, int id) {
                             Log.e("NetInfo", "失败！" + e.toString());
-                            callback.calback("",false);
+                            callback.calback("", false);
                         }
 
                         @Override
                         public void onResponse(String responseString, int id) {
-                            Log.e("NetInfo",responseString);
+                            Log.e("NetInfo", responseString);
                             if (callback != null) {
-                                callback.calback(responseString,true);
+                                callback.calback(responseString, true);
                             }
                         }
                     });
-            Log.e("NetInfo","send ok");
+            Log.e("NetInfo", "send ok");
         } catch (Exception e) {
-            Log.e("NetInfo","send err:"+e);
+            Log.e("NetInfo", "send err:" + e);
         }
     }
 
+    public static void postWithFile(String url, String filePath, Map<String, String> paramters,
+                                    final DataCallBack callback) {
+        try {
+            File file = new File(filePath);
+            if (!file.exists()) {
+                Log.e("ml", "文件不逊在");
+                return;
+            }
+            OkHttpUtils.initClient(client)
+                    .post()
+                    .url(url)
+                    .addHeader("name", mmkv.decodeString("name", ""))
+                    .addHeader("pwd", mmkv.decodeString("pwd", ""))
+                    .addHeader("Content-Disposition", "form-data;filename=enctype")
+                    .params(paramters)
+                    .addFile("img","user_"+System.currentTimeMillis()+".jpg",file)
+                    .build()
+                    .execute(new StringCallback() {
+                        @Override
+                        public void onError(Call call, Exception e, int id) {
+                            Log.e("NetInfo", "失败！" + e.toString());
+                            callback.calback("", false);
+                        }
 
-    public interface DataCallBack{
-        void calback(String data,boolean flage);
+                        @Override
+                        public void onResponse(String responseString, int id) {
+                            Log.e("NetInfo", responseString);
+                            if (callback != null) {
+                                callback.calback(responseString, true);
+                            }
+                        }
+                    });
+            Log.e("NetInfo", "send ok");
+        } catch (Exception e) {
+            Log.e("NetInfo", "send err:" + e);
+        }
+    }
+
+    public interface DataCallBack {
+        void calback(String data, boolean flage);
     }
 }
