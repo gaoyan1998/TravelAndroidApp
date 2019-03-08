@@ -21,7 +21,7 @@ import com.bumptech.glide.Glide;
 import com.ikiler.travel.APIconfig;
 import com.ikiler.travel.Base.BaseActivity;
 import com.ikiler.travel.Model.CallBack;
-import com.ikiler.travel.Model.FoodViewModel;
+import com.ikiler.travel.Model.FoodLiveDataModel;
 import com.ikiler.travel.Model.bean.Food;
 import com.ikiler.travel.R;
 import com.ikiler.travel.util.HttpConfig;
@@ -40,7 +40,7 @@ public class FoodEditActivity extends BaseActivity {
     private EditText detail;
     private ImageView img;
     private Uri imageUri;
-    private FoodViewModel model;
+    private FoodLiveDataModel model;
     private boolean isEditable = true;
     private Toolbar toolbar;
     protected String action = "add";
@@ -57,7 +57,7 @@ public class FoodEditActivity extends BaseActivity {
     }
 
     private void initLiveData() {
-        model = FoodViewModel.instance();
+        model = FoodLiveDataModel.instance();
         model.getMutableLiveData().observe(this, new Observer<Food>() {
             @Override
             public void onChanged(Food food) {

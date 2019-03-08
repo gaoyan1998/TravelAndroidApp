@@ -1,4 +1,4 @@
-package com.ikiler.travel.Adapter;
+package com.ikiler.travel.Base;
 
 import android.view.View;
 import android.view.ViewGroup;

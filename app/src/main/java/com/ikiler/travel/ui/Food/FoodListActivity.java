@@ -6,10 +6,10 @@ import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ikiler.travel.APIconfig;
-import com.ikiler.travel.Adapter.BaseRecyleAdapter;
+import com.ikiler.travel.Base.BaseRecyleAdapter;
 import com.ikiler.travel.Base.BaseActivity;
 import com.ikiler.travel.Model.CallBack;
-import com.ikiler.travel.Model.FoodViewModel;
+import com.ikiler.travel.Model.FoodLiveDataModel;
 import com.ikiler.travel.Model.bean.Food;
 import com.ikiler.travel.R;
 import com.ikiler.travel.Adapter.FooditemRecyclerViewAdapter;
@@ -25,7 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 public class FoodListActivity extends BaseActivity {
 
     private RecyclerView recyclerView;
-    protected FoodViewModel model;
+    protected FoodLiveDataModel model;
     private FooditemRecyclerViewAdapter adapter = new FooditemRecyclerViewAdapter();
 
 
@@ -87,7 +87,7 @@ public class FoodListActivity extends BaseActivity {
     }
 
     private void initLiveData() {
-        model = FoodViewModel.instance();
+        model = FoodLiveDataModel.instance();
         model.getMutableLiveDatas().observe(this, new Observer<List<Food>>() {
             @Override
             public void onChanged(List<Food> foods) {

@@ -40,6 +40,10 @@ public class RssFeed {
 
     }
 
+    public List<RssItem> getRssItems() {
+        return rssItems;
+    }
+
     public String getTitle() {
         return title;
     }

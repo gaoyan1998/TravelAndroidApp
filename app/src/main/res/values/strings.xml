@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TheOne</string>
+    <string name="app_name">旅游助手</string>
     <string name="rember_pwd">记住密码</string>
 
     <array name="ms_info">

@@ -100,6 +100,7 @@ public class MainContent extends AppCompatActivity
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         initWeather();
+        switchFragement(feedFragment==null?new FeedFragment():feedFragment);
     }
 
     private void initWeather() {
@@ -219,7 +220,10 @@ public class MainContent extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if(getSupportFragmentManager().getBackStackEntryCount() <= 0)//这里是取出我们返回栈存在Fragment的个数
+                super.onBackPressed();
+            else
+                getSupportFragmentManager().popBackStack();
         }
     }
 
