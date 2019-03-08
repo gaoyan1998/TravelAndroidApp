@@ -34,10 +34,17 @@ public class FeedFragment extends Fragment {
 
     private FeedRecyclerViewAdapter adapter;
 
+    private static FeedFragment feedFragment;
+
+    public static FeedFragment instance(){
+        if (null == feedFragment)
+            feedFragment = new FeedFragment();
+        return feedFragment;
+    }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override

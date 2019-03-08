@@ -10,12 +10,14 @@ import android.util.Log;
 
 import com.google.android.material.navigation.NavigationView;
 import com.ikiler.travel.APIconfig;
+import com.ikiler.travel.Base.BaseActivity;
 import com.ikiler.travel.Model.bean.WeatherBean;
 import com.ikiler.travel.MainActivity;
 import com.ikiler.travel.R;
 import com.ikiler.travel.ui.Food.FoodListActivity;
 import com.ikiler.travel.ui.Spot.SpotActivity;
 import com.ikiler.travel.ui.fragement.FeedFragment;
+import com.ikiler.travel.ui.fragement.PersonalFragment;
 import com.ikiler.travel.ui.weather.BaseWeatherType;
 import com.ikiler.travel.ui.weather.DynamicWeatherView;
 import com.ikiler.travel.ui.weather.dynamic.FogType;
@@ -47,14 +49,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MainContent extends AppCompatActivity
+public class MainContent extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private DynamicWeatherView dynamicWeatherView;
     private TextView degree,loaction,weatherInfo,updataTime;
     private WeatherBean.HeWeather6Bean weatherBean;
-
-    private FeedFragment feedFragment;
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -64,11 +64,12 @@ public class MainContent extends AppCompatActivity
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    switchFragement(feedFragment==null?new FeedFragment():feedFragment);
+                    switchFragement(FeedFragment.instance());
                     return true;
                 case R.id.navigation_dashboard:
                     return true;
-                case R.id.navigation_notifications:
+                case R.id.navigation_person:
+                    switchFragement(PersonalFragment.instance());
                     return true;
             }
             return false;
@@ -79,16 +80,16 @@ public class MainContent extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_content);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         dynamicWeatherView = navigationView.getHeaderView(0).findViewById(R.id.dynamic_header);
         degree = navigationView.getHeaderView(0).findViewById(R.id.degree_text);
@@ -100,11 +101,10 @@ public class MainContent extends AppCompatActivity
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         initWeather();
-        switchFragement(feedFragment==null?new FeedFragment():feedFragment);
+        switchFragement(FeedFragment.instance());
     }
 
     private void initWeather() {
-        Log.e("ml","aaaaaaaaaaaa");
         Map<String,String> params = new HashMap();
         params.put("location","auto_ip");
         params.put("key","b2e77245d3424482ad0984ccb82f4b99");
