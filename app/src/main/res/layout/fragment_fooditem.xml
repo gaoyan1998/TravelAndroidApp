@@ -16,6 +16,7 @@
         android:orientation="vertical">
 
         <ImageView
+            android:src="@mipmap/no_pic"
             android:id="@+id/food_img"
             android:layout_width="160dp"
             android:layout_height="160dp"

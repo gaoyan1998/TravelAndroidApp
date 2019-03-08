@@ -6,13 +6,14 @@ import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ikiler.travel.APIconfig;
+import com.ikiler.travel.Adapter.BaseRecyleAdapter;
 import com.ikiler.travel.Base.BaseActivity;
+import com.ikiler.travel.Model.CallBack;
 import com.ikiler.travel.Model.FoodViewModel;
-import com.ikiler.travel.Model.OnListLongClickListener;
 import com.ikiler.travel.Model.bean.Food;
-import com.ikiler.travel.Model.OnListFragmentInteractionListener;
 import com.ikiler.travel.R;
-import com.ikiler.travel.Adapter.MyfooditemRecyclerViewAdapter;
+import com.ikiler.travel.Adapter.FooditemRecyclerViewAdapter;
+import com.ikiler.travel.util.HttpConfig;
 
 import java.util.List;
 
@@ -24,26 +25,38 @@ import androidx.recyclerview.widget.RecyclerView;
 public class FoodListActivity extends BaseActivity {
 
     private RecyclerView recyclerView;
-    private FoodViewModel model;
-    private MyfooditemRecyclerViewAdapter adapter = new MyfooditemRecyclerViewAdapter();
+    protected FoodViewModel model;
+    private FooditemRecyclerViewAdapter adapter = new FooditemRecyclerViewAdapter();
 
 
-    private OnListFragmentInteractionListener mListener = new OnListFragmentInteractionListener() {
+    private BaseRecyleAdapter.onRecyclerItemClickLitener mListener = new BaseRecyleAdapter.onRecyclerItemClickLitener() {
         @Override
-        public void onListFragmentInteraction(Food item) {
-            startActivity(new Intent(getApplicationContext(), FoodEditActivity.class));
-            model.getMutableLiveData().setValue(item);
+        public void onRecyclerItemClick(Object object, int position) {
+            itemClick((Food) object);
         }
     };
-    private OnListLongClickListener mOnListLongClickListener = new OnListLongClickListener() {
+    private BaseRecyleAdapter.onRecyclerItemLongClicjk mOnListLongClickListener = new BaseRecyleAdapter.onRecyclerItemLongClicjk() {
+
         @Override
-        public void onLongClick(final Food food) {
+        public void onRecyclerItemLongClick(final Object object, int position) {
             showDialog("确定删除吗", new CallBack() {
                 @Override
-                public void calBack(boolean flage) {
-                    if (flage) {
-                        showNetProgress();
-                        APIconfig.deleteFood(food.getId());
+                public void calBack(boolean flage, int code) {
+                    cancelNetDialog();
+                    switch (code) {
+                        case CODE_FROM_BASEACTIVITY:
+                            showNetProgress();
+                            itemDelete((Food) object,this);
+                            break;
+                        case HttpConfig.REQUEST_SUCCESS:
+                            showToast("删除成功");
+                            refersh();
+                            break;
+                        case HttpConfig.NET_ERR:
+                            showToast("网络连接失败！");
+                            break;
+                        default:
+                            showToast("出错");
                     }
                 }
             });
@@ -59,8 +72,8 @@ public class FoodListActivity extends BaseActivity {
         recyclerView = findViewById(R.id.list);
         recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
         recyclerView.setAdapter(adapter);
-        adapter.setmListener(mListener);
-        adapter.setmLongClick(mOnListLongClickListener);
+        adapter.setOnRecyclerItemClickLitener(mListener);
+        adapter.setOnRecyclerItemLongClicjk(mOnListLongClickListener);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,8 +82,8 @@ public class FoodListActivity extends BaseActivity {
                 startActivity(new Intent(getApplicationContext(), FoodEditActivity.class));
             }
         });
+        refersh();
         initLiveData();
-        APIconfig.refershFoods();
     }
 
     private void initLiveData() {
@@ -78,10 +91,20 @@ public class FoodListActivity extends BaseActivity {
         model.getMutableLiveDatas().observe(this, new Observer<List<Food>>() {
             @Override
             public void onChanged(List<Food> foods) {
-                adapter.upDate(foods);
+                adapter.setList(foods);
                 cancelNetDialog();
             }
         });
     }
 
+    protected void refersh(){
+        APIconfig.refershFoods();
+    }
+    protected void itemClick(Food item){
+        model.getMutableLiveData().setValue(item);
+        startActivity(new Intent(getApplicationContext(), FoodEditActivity.class));
+    }
+    protected void itemDelete(Food food,CallBack callBack){
+        APIconfig.deleteFood(food.getId(), callBack);
+    }
 }

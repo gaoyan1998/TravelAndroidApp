@@ -14,6 +14,8 @@ import com.ikiler.travel.Model.bean.WeatherBean;
 import com.ikiler.travel.MainActivity;
 import com.ikiler.travel.R;
 import com.ikiler.travel.ui.Food.FoodListActivity;
+import com.ikiler.travel.ui.Spot.SpotActivity;
+import com.ikiler.travel.ui.fragement.FeedFragment;
 import com.ikiler.travel.ui.weather.BaseWeatherType;
 import com.ikiler.travel.ui.weather.DynamicWeatherView;
 import com.ikiler.travel.ui.weather.dynamic.FogType;
@@ -34,6 +36,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -41,10 +44,18 @@ import android.view.MenuItem;
 import android.widget.TextView;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MainContent extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private DynamicWeatherView dynamicWeatherView;
+    private TextView degree,loaction,weatherInfo,updataTime;
+    private WeatherBean.HeWeather6Bean weatherBean;
+
+    private FeedFragment feedFragment;
+
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -53,6 +64,7 @@ public class MainContent extends AppCompatActivity
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
+                    switchFragement(feedFragment==null?new FeedFragment():feedFragment);
                     return true;
                 case R.id.navigation_dashboard:
                     return true;
@@ -89,10 +101,6 @@ public class MainContent extends AppCompatActivity
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         initWeather();
     }
-
-    DynamicWeatherView dynamicWeatherView;
-    TextView degree,loaction,weatherInfo,updataTime;
-    WeatherBean.HeWeather6Bean weatherBean;
 
     private void initWeather() {
         Log.e("ml","aaaaaaaaaaaa");
@@ -249,7 +257,7 @@ public class MainContent extends AppCompatActivity
             startActivity(new Intent(getApplicationContext(), FoodListActivity.class));
 //            transaction.replace(R.id.content, Weather.newInstance());
         } else if (id == R.id.nav_gallery) {
-
+            startActivity(new Intent(getApplicationContext(), SpotActivity.class));
         } else if (id == R.id.nav_slideshow) {
 
         } else if (id == R.id.nav_manage) {
@@ -264,5 +272,28 @@ public class MainContent extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
         transaction.commitAllowingStateLoss();
         return true;
+    }
+
+    /**
+     * 管理fragement
+     * @param fragment 目标feagement
+     * */
+    private void switchFragement(Fragment fragment){
+        boolean flage = false;
+        FragmentManager manager = getSupportFragmentManager();
+        FragmentTransaction transaction = manager.beginTransaction();
+        List<Fragment> fragments = manager.getFragments();
+        for (Fragment item:fragments){
+            if (item != fragment){
+                transaction.hide(item);
+            }else {
+                flage = true;
+            }
+        }
+        if (!flage){
+            transaction.add(R.id.content,fragment);
+        }
+        transaction.show(fragment);
+        transaction.commitAllowingStateLoss();
     }
 }

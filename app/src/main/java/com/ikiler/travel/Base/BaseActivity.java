@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.ikiler.travel.Model.CallBack;
 import com.ikiler.travel.Model.bean.User;
 import com.ikiler.travel.ui.Food.FoodEditActivity;
 import com.tencent.mmkv.MMKV;
@@ -17,6 +18,10 @@ import androidx.appcompat.app.AppCompatActivity;
 public class BaseActivity extends AppCompatActivity {
     private MMKV mmkv;
     protected ProgressDialog dialog;
+
+    protected final int CODE_FROM_BASEACTIVITY = -2;
+    public final static int TAKE_PHOTO = 1;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,13 +54,13 @@ public class BaseActivity extends AppCompatActivity {
                 .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        callBack.calBack(true);
+                        callBack.calBack(true,CODE_FROM_BASEACTIVITY);
                     }
                 })
                 .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        callBack.calBack(false);
+                        callBack.calBack(false,CODE_FROM_BASEACTIVITY);
                     }
                 }).create();
         alertDialog.show();
@@ -80,7 +85,4 @@ public class BaseActivity extends AppCompatActivity {
         return mmkv;
     }
 
-    protected interface CallBack{
-        void calBack(boolean flage);
-    }
 }

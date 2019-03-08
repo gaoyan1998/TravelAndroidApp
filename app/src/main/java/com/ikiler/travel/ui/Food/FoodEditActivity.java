@@ -1,6 +1,5 @@
 package com.ikiler.travel.ui.Food;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,7 +10,6 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,31 +19,22 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.ikiler.travel.APIconfig;
-import com.ikiler.travel.Adapter.MyfooditemRecyclerViewAdapter;
 import com.ikiler.travel.Base.BaseActivity;
+import com.ikiler.travel.Model.CallBack;
 import com.ikiler.travel.Model.FoodViewModel;
-import com.ikiler.travel.Model.bean.Code;
 import com.ikiler.travel.Model.bean.Food;
 import com.ikiler.travel.R;
-import com.ikiler.travel.util.GsonUtil;
 import com.ikiler.travel.util.HttpConfig;
-import com.ikiler.travel.util.OkHttpUtil;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
 public class FoodEditActivity extends BaseActivity {
-
-    public final static int TAKE_PHOTO = 1;
 
     private EditText name;
     private EditText detail;
@@ -54,12 +43,14 @@ public class FoodEditActivity extends BaseActivity {
     private FoodViewModel model;
     private boolean isEditable = true;
     private Toolbar toolbar;
+    protected String action = "add";
+    protected Food mFood;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_edit);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar =  findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         initView();
         initLiveData();
@@ -71,7 +62,8 @@ public class FoodEditActivity extends BaseActivity {
             @Override
             public void onChanged(Food food) {
                 if (food == null) {
-                    setEditable(true);
+//                    setEditable(true);
+                    mFood = new Food();
                     return;
                 }
                 name.setText(food.getName());
@@ -80,6 +72,8 @@ public class FoodEditActivity extends BaseActivity {
                         .into(img);
                 img.setVisibility(View.VISIBLE);
                 setEditable(false);
+                action = "update";
+                mFood = food;
             }
         });
     }
@@ -167,26 +161,11 @@ public class FoodEditActivity extends BaseActivity {
             showToast("还没有上传照片哦！");
             return;
         }
-        Food food = new Food();
-        food.setName(nameString);
-        food.setText(detailString);
-        Map<String, String> map = new HashMap<>();
-        map.put("json", GsonUtil.GsonString(food));
+        mFood.setName(nameString);
+        mFood.setText(detailString);
+        mFood.setImagePath(imageUri.getPath());
         showNetProgress();
-        OkHttpUtil.postWithFile(APIconfig.Food + "?action=add", imageUri.getPath(), map, new OkHttpUtil.DataCallBack() {
-            @Override
-            public void calback(String data, boolean flage) {
-                if (flage) {
-                    Code code = GsonUtil.GsonToBean(data, Code.class);
-                    if (code.getCode() == HttpConfig.REQUEST_SUCCESS) {
-                        showToast("上传成功");
-                        cancelNetDialog();
-                        finish();
-                    } else cancelNetDialog();
-                } else cancelNetDialog();
-            }
-        });
-        APIconfig.refershFoods();
+        editItem();
     }
 
     @Override
@@ -204,5 +183,24 @@ public class FoodEditActivity extends BaseActivity {
                 }
                 break;
         }
+    }
+    protected void editItem(){
+        APIconfig.editFood(action, mFood, new CallBack() {
+            @Override
+            public void calBack(boolean flage, int code) {
+                cancelNetDialog();
+                switch (code) {
+                    case HttpConfig.REQUEST_SUCCESS:
+                        showToast("修改成功");
+                        APIconfig.refershFoods();
+                        break;
+                    case HttpConfig.NET_ERR:
+                        showToast("网络连接失败！");
+                        break;
+                    default:
+                        showToast("出错");
+                }
+            }
+        });
     }
 }
