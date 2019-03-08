@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public abstract class BaseRecyleAdapter<T,V extends BaseRecyleAdapter.ViewHolder> extends RecyclerView.Adapter<V> {
+
     private List<T> list;
     private onRecyclerItemClickLitener onRecyclerItemClickLitener;
     private onRecyclerItemLongClicjk onRecyclerItemLongClicjk;
@@ -53,9 +54,6 @@ public abstract class BaseRecyleAdapter<T,V extends BaseRecyleAdapter.ViewHolder
         }
     }
 
-    public abstract void onMyBindViewHolder(V holder, int position);
-    public abstract V onMyCreateViewHolder(ViewGroup parent, int viewType);
-
     public abstract class ViewHolder extends RecyclerView.ViewHolder {
 
         public ViewHolder(@NonNull View itemView) {
@@ -63,10 +61,19 @@ public abstract class BaseRecyleAdapter<T,V extends BaseRecyleAdapter.ViewHolder
         }
         public abstract T getObject();
     }
+
     @Override
     public int getItemCount() {
         return list.size();
     }
+
+    /**
+     * 由子类返回
+     *
+     * */
+    public abstract void onMyBindViewHolder(V holder, int position);
+    public abstract V onMyCreateViewHolder(ViewGroup parent, int viewType);
+
 
     /**
      *   指定位置添加item
@@ -85,16 +92,11 @@ public abstract class BaseRecyleAdapter<T,V extends BaseRecyleAdapter.ViewHolder
         notifyItemRemoved(position);
     }
 
-
-    public interface onRecyclerItemClickLitener {
-        void onRecyclerItemClick(Object object, int position);
-    }
-    public interface onRecyclerItemLongClicjk{
-        void onRecyclerItemLongClick(Object object , int position);
-    }
-
-
-
+    /**
+     *
+     * 设置各种监听器
+     *
+     * */
     public void setOnRecyclerItemClickLitener(onRecyclerItemClickLitener onRecyclerItemClickLitener)
     {
         this.onRecyclerItemClickLitener = onRecyclerItemClickLitener;
@@ -102,7 +104,21 @@ public abstract class BaseRecyleAdapter<T,V extends BaseRecyleAdapter.ViewHolder
     public void setOnRecyclerItemLongClicjk(onRecyclerItemLongClicjk onRecyclerItemLongClicjk){
         this.onRecyclerItemLongClicjk = onRecyclerItemLongClicjk;
     }
+    public void setOnScrollListener(LoadMoreRecyclerOnScrollListener listener){
+        setOnScrollListener(listener);
+    }
 
+    /**
+     *
+     * 监听器接口
+     *
+     * */
+    public interface onRecyclerItemClickLitener {
+        void onRecyclerItemClick(Object object, int position);
+    }
+    public interface onRecyclerItemLongClicjk{
+        void onRecyclerItemLongClick(Object object , int position);
+    }
     /**
      * 为RecyclerView添加上拉加载更多的实现接口
      * firstVisibleItem=页面显示的第一个Item的Position
