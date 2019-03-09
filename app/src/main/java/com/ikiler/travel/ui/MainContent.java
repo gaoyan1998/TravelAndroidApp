@@ -18,6 +18,7 @@ import com.ikiler.travel.ui.Food.FoodListActivity;
 import com.ikiler.travel.ui.Spot.SpotActivity;
 import com.ikiler.travel.ui.fragement.FeedFragment;
 import com.ikiler.travel.ui.fragement.PersonalFragment;
+import com.ikiler.travel.ui.fragement.TrainTicketFragment;
 import com.ikiler.travel.ui.weather.BaseWeatherType;
 import com.ikiler.travel.ui.weather.DynamicWeatherView;
 import com.ikiler.travel.ui.weather.dynamic.FogType;
@@ -45,6 +46,10 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import org.feezu.liuli.timeselector.TimeSelector;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,7 +60,9 @@ public class MainContent extends BaseActivity
     private DynamicWeatherView dynamicWeatherView;
     private TextView degree,loaction,weatherInfo,updataTime;
     private WeatherBean.HeWeather6Bean weatherBean;
-
+    private FeedFragment feedFragment;
+    private PersonalFragment personalFragment;
+    private TrainTicketFragment trainTicketFragment;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -64,12 +71,19 @@ public class MainContent extends BaseActivity
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    switchFragement(FeedFragment.instance());
+                    if (null ==feedFragment)
+                        feedFragment = new FeedFragment();
+                    switchFragement(feedFragment);
                     return true;
-                case R.id.navigation_dashboard:
+                case R.id.navigation_train:
+                    if (null == trainTicketFragment)
+                        trainTicketFragment = new TrainTicketFragment();
+                    switchFragement(trainTicketFragment);
                     return true;
                 case R.id.navigation_person:
-                    switchFragement(PersonalFragment.instance());
+                    if (null == personalFragment)
+                        personalFragment = new PersonalFragment();
+                    switchFragement(personalFragment);
                     return true;
             }
             return false;
@@ -102,6 +116,9 @@ public class MainContent extends BaseActivity
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         initWeather();
         switchFragement(FeedFragment.instance());
+
+        String fromDate = new SimpleDateFormat("yyyy-MM-dd")
+                .format(new Date());
     }
 
     private void initWeather() {

@@ -2,10 +2,12 @@ package com.ikiler.travel;
 
 import android.util.Log;
 
+import com.ikiler.travel.Base.BaseLiveData;
 import com.ikiler.travel.Model.CallBack;
 import com.ikiler.travel.Model.FeedLiveDataModel;
 import com.ikiler.travel.Model.FoodLiveDataModel;
 import com.ikiler.travel.Model.RssItem;
+import com.ikiler.travel.Model.bean.Addr;
 import com.ikiler.travel.Model.bean.Code;
 import com.ikiler.travel.Model.bean.Food;
 import com.ikiler.travel.util.GsonUtil;
@@ -35,23 +37,40 @@ public class APIconfig {
     public static final String Register = BaseUrl + "/travel/register";
     public static final String Food = BaseUrl + "/travel/FoodManager";
     public static final String Spot = BaseUrl + "/travel/SpotManager";
+    public static final String Ticket = BaseUrl +"/travel/AddrManager";
+//    public static final String Login = BaseUrl +"";
+//    public static final String Login = BaseUrl +"";
+//    public static final String Login = BaseUrl +"";
+//    public static final String Login = BaseUrl +"";
+//    public static final String Login = BaseUrl +"";
+//    public static final String Login = BaseUrl +"";
+//    public static final String Login = BaseUrl +"";
+//    public static final String Login = BaseUrl +"";
+//    public static final String Login = BaseUrl +"";
+//    public static final String Login = BaseUrl +"";
+//    public static final String Login = BaseUrl +"";
+//    public static final String Login = BaseUrl +"";
+//    public static final String Login = BaseUrl +"";
 
-//    public static final String Login = BaseUrl +"";
-//    public static final String Login = BaseUrl +"";
-//    public static final String Login = BaseUrl +"";
-//    public static final String Login = BaseUrl +"";
-//    public static final String Login = BaseUrl +"";
-//    public static final String Login = BaseUrl +"";
-//    public static final String Login = BaseUrl +"";
-//    public static final String Login = BaseUrl +"";
-//    public static final String Login = BaseUrl +"";
-//    public static final String Login = BaseUrl +"";
-//    public static final String Login = BaseUrl +"";
-//    public static final String Login = BaseUrl +"";
-//    public static final String Login = BaseUrl +"";
-//    public static final String Login = BaseUrl +"";
 
+    public static void getCity(BaseLiveData<Addr> liveData){
+        Log.e("ml", "GET_CITY");
+        OkHttpUtil.postJsonBody(APIconfig.Ticket, "", new OkHttpUtil.DataCallBack() {
+            @Override
+            public void calback(String data, boolean flage) {
+                if (flage){
+                    Code code = GsonUtil.GsonToBean(data,Code.class);
+                    if (code.getCode() == HttpConfig.REQUEST_SUCCESS){
+                        List<Addr> list = GsonUtil.jsonToList(code.getData(),Addr.class);
+                        liveData.getMutableLiveDatas().setValue(list);
+                    }
+                }
+            }
+        });
+    }
+    public static void getTicket(){
 
+    }
     public static void refershFoods() {
         Log.e("ml", "REF_FOOD");
         final FoodLiveDataModel model = FoodLiveDataModel.instance();
@@ -62,7 +81,7 @@ public class APIconfig {
             public void calback(String data, boolean flage) {
                 if (flage) {
                     Code code = GsonUtil.GsonToBean(data, Code.class);
-                    List<com.ikiler.travel.Model.bean.Food> foodList = GsonUtil.jsonToList(code.getData().replaceAll("\\\\", ""), Food.class);
+                    List<com.ikiler.travel.Model.bean.Food> foodList = GsonUtil.jsonToList(code.getData(), Food.class);
                     model.getMutableLiveDatas().setValue(foodList);
                 }
             }

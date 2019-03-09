@@ -7,7 +7,7 @@ import java.util.List;
 
 import androidx.lifecycle.MutableLiveData;
 
-public abstract class BaseLiveData <T>{
+public  class BaseLiveData <T>{
     private MutableLiveData<T> mutableLiveData;
     private MutableLiveData<List<T>> mutableLiveDatas;
 

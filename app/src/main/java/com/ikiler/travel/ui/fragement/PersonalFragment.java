@@ -26,21 +26,10 @@ import butterknife.OnClick;
 
 public class PersonalFragment extends BaseFragement {
 
-
     @BindView(R.id.imageView_userIcon)
     ImageView imageViewUserIcon;
     @BindView(R.id.username)
     TextView username;
-
-    private App app;
-    private static PersonalFragment personalFragment;
-
-
-    public static PersonalFragment instance(){
-        if (null == personalFragment)
-            personalFragment = new PersonalFragment();
-        return personalFragment;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -52,7 +41,6 @@ public class PersonalFragment extends BaseFragement {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this,view);
-        app = (App) getActivity().getApplication();
         username.setText(((BaseActivity) getActivity()).getUser().getName());
     }
 

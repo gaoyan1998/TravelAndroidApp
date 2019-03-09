@@ -7,9 +7,9 @@
         android:title="旅游资讯" />
 
     <item
-        android:id="@+id/navigation_dashboard"
-        android:icon="@drawable/ic_dashboard_black_24dp"
-        android:title="@string/title_dashboard" />
+        android:id="@+id/navigation_train"
+        android:icon="@mipmap/bottom_train"
+        android:title="车票购买" />
 
     <item
         android:id="@+id/navigation_person"
