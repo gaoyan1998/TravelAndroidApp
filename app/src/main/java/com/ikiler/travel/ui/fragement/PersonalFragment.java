@@ -14,6 +14,7 @@ import com.ikiler.travel.Base.BaseFragement;
 import com.ikiler.travel.Model.CallBack;
 import com.ikiler.travel.R;
 import com.ikiler.travel.ui.LoginActivity;
+import com.ikiler.travel.ui.MyTicketActivity;
 import com.ikiler.travel.util.App;
 
 import androidx.annotation.NonNull;
@@ -48,7 +49,7 @@ public class PersonalFragment extends BaseFragement {
     public void onViewClicked(View view){
         switch (view.getId()){
             case R.id.layout_ticket:
-                showToast("车票");
+                startActivity(new Intent(getActivity(), MyTicketActivity.class));
                 break;
             case R.id.layout_logout:
                 BaseActivity activity = (BaseActivity) getActivity();

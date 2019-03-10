@@ -13,7 +13,11 @@ import com.ikiler.travel.R;
 
 public class DialogUtil {
 
+    private int CODE_FROM_BASEACTIVITY = 0;
+
     protected ProgressDialog dialog;
+
+
     public void showProgress(Context context,String msg){
         if (dialog == null){
             dialog = new ProgressDialog(context);
@@ -47,4 +51,24 @@ public class DialogUtil {
         });
         builder.create().show();
     }
+
+    public void showSureDialog(Context context,String msg, final CallBack callBack){
+        AlertDialog alertDialog = new AlertDialog.Builder(context)
+                .setMessage(msg)
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        callBack.calBack(true,CODE_FROM_BASEACTIVITY);
+                    }
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        callBack.calBack(false,CODE_FROM_BASEACTIVITY);
+                    }
+                }).create();
+        alertDialog.show();
+    }
+
 }

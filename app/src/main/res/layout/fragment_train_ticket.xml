@@ -52,7 +52,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="上海"
+                android:text="出发地"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
             <ImageView
@@ -68,7 +68,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:text="沈阳"
+                android:text="目的地"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large" />
         </LinearLayout>
 

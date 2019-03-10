@@ -2,6 +2,7 @@ package com.ikiler.travel.Base;
 
 import android.view.View;
 import android.view.ViewGroup;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,14 +10,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public abstract class BaseRecyleAdapter<T,V extends BaseRecyleAdapter.ViewHolder> extends RecyclerView.Adapter<V> {
+public abstract class BaseRecyleAdapter<T, V extends BaseRecyleAdapter.ViewHolder> extends RecyclerView.Adapter<V> {
 
     private List<T> list;
     private onRecyclerItemClickLitener onRecyclerItemClickLitener;
     private onRecyclerItemLongClicjk onRecyclerItemLongClicjk;
 
-    public BaseRecyleAdapter(){
-        list=new ArrayList<>();
+    public BaseRecyleAdapter() {
+        list = new ArrayList<>();
     }
 
     public List<T> getList() {
@@ -36,18 +37,20 @@ public abstract class BaseRecyleAdapter<T,V extends BaseRecyleAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull final V holder, final int position) {
-        onMyBindViewHolder(holder,position);
-        if(onRecyclerItemClickLitener!=null) {
+        onMyBindViewHolder(holder, position);
+        if (onRecyclerItemClickLitener != null) {
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    onRecyclerItemClickLitener.onRecyclerItemClick(holder.getObject(),position);
+                    if (null != onRecyclerItemClickLitener)
+                        onRecyclerItemClickLitener.onRecyclerItemClick(holder.getObject(), position);
                 }
             });
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
-                    onRecyclerItemLongClicjk.onRecyclerItemLongClick(holder.getObject(),position);
+                    if (null != onRecyclerItemLongClicjk)
+                        onRecyclerItemLongClicjk.onRecyclerItemLongClick(holder.getObject(), position);
                     return true;
                 }
             });
@@ -59,6 +62,7 @@ public abstract class BaseRecyleAdapter<T,V extends BaseRecyleAdapter.ViewHolder
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
         }
+
         public abstract T getObject();
     }
 
@@ -69,16 +73,16 @@ public abstract class BaseRecyleAdapter<T,V extends BaseRecyleAdapter.ViewHolder
 
     /**
      * 由子类返回
-     *
-     * */
+     */
     public abstract void onMyBindViewHolder(V holder, int position);
+
     public abstract V onMyCreateViewHolder(ViewGroup parent, int viewType);
 
 
     /**
-     *   指定位置添加item
+     * 指定位置添加item
      */
-    public void addData(int position,T data) {
+    public void addData(int position, T data) {
         list.add(position, data);
         notifyItemInserted(position);
     }
@@ -93,32 +97,31 @@ public abstract class BaseRecyleAdapter<T,V extends BaseRecyleAdapter.ViewHolder
     }
 
     /**
-     *
      * 设置各种监听器
-     *
-     * */
-    public void setOnRecyclerItemClickLitener(onRecyclerItemClickLitener onRecyclerItemClickLitener)
-    {
+     */
+    public void setOnRecyclerItemClickLitener(onRecyclerItemClickLitener onRecyclerItemClickLitener) {
         this.onRecyclerItemClickLitener = onRecyclerItemClickLitener;
     }
-    public void setOnRecyclerItemLongClicjk(onRecyclerItemLongClicjk onRecyclerItemLongClicjk){
+
+    public void setOnRecyclerItemLongClicjk(onRecyclerItemLongClicjk onRecyclerItemLongClicjk) {
         this.onRecyclerItemLongClicjk = onRecyclerItemLongClicjk;
     }
-    public void setOnScrollListener(LoadMoreRecyclerOnScrollListener listener){
+
+    public void setOnScrollListener(LoadMoreRecyclerOnScrollListener listener) {
         setOnScrollListener(listener);
     }
 
     /**
-     *
      * 监听器接口
-     *
-     * */
+     */
     public interface onRecyclerItemClickLitener {
         void onRecyclerItemClick(Object object, int position);
     }
-    public interface onRecyclerItemLongClicjk{
-        void onRecyclerItemLongClick(Object object , int position);
+
+    public interface onRecyclerItemLongClicjk {
+        void onRecyclerItemLongClick(Object object, int position);
     }
+
     /**
      * 为RecyclerView添加上拉加载更多的实现接口
      * firstVisibleItem=页面显示的第一个Item的Position
@@ -137,6 +140,7 @@ public abstract class BaseRecyleAdapter<T,V extends BaseRecyleAdapter.ViewHolder
         private int currentPage = 1;
 
         private LinearLayoutManager mLinearLayoutManager;
+
         public LoadMoreRecyclerOnScrollListener(LinearLayoutManager linearLayoutManager) {
             this.mLinearLayoutManager = linearLayoutManager;
         }
@@ -159,9 +163,11 @@ public abstract class BaseRecyleAdapter<T,V extends BaseRecyleAdapter.ViewHolder
                 loading = true;
             }
         }
+
         public abstract void onLoadMore(int currentPage);
-        public void clearPreviousTotal(){
-            previousTotal=0;
+
+        public void clearPreviousTotal() {
+            previousTotal = 0;
         }
     }
 }

@@ -18,7 +18,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.ikiler.travel.APIconfig;
+import com.ikiler.travel.util.APIconfig;
 import com.ikiler.travel.Base.BaseActivity;
 import com.ikiler.travel.Model.CallBack;
 import com.ikiler.travel.Model.FoodLiveDataModel;

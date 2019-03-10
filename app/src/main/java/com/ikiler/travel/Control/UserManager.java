@@ -1,6 +1,6 @@
 package com.ikiler.travel.Control;
 
-import com.ikiler.travel.APIconfig;
+import com.ikiler.travel.util.APIconfig;
 import com.ikiler.travel.Model.bean.Code;
 import com.ikiler.travel.Model.bean.User;
 import com.ikiler.travel.util.OkHttpUtil;

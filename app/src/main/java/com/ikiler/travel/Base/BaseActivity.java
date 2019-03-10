@@ -48,6 +48,7 @@ public class BaseActivity extends AppCompatActivity {
     public void showToast(String text) {
         Toast.makeText(BaseActivity.this, text, Toast.LENGTH_SHORT).show();
     }
+
     public void showDialog(String msg, final CallBack callBack){
         AlertDialog alertDialog = new AlertDialog.Builder(BaseActivity.this)
                 .setMessage(msg)
@@ -65,6 +66,8 @@ public class BaseActivity extends AppCompatActivity {
                 }).create();
         alertDialog.show();
     }
+
+
     public void showNetProgress(){
         if (dialog == null){
             dialog = new ProgressDialog(BaseActivity.this);

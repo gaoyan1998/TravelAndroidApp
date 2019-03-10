@@ -84,7 +84,12 @@
         <activity
             android:name=".ui.Spot.SpotActivity"
             android:label="景点管理" />
-        <activity android:name=".ui.Spot.SpotEditActivity"></activity>
+        <activity android:name=".ui.Spot.SpotEditActivity" />
+        <activity android:name=".ui.TicketShowActivity" />
+        <activity
+            android:name=".ui.MyTicketActivity"
+            android:label="@string/title_activity_my_ticket"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

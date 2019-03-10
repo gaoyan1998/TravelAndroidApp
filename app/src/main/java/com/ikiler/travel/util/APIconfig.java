@@ -1,4 +1,4 @@
-package com.ikiler.travel;
+package com.ikiler.travel.util;
 
 import android.util.Log;
 
@@ -10,10 +10,8 @@ import com.ikiler.travel.Model.RssItem;
 import com.ikiler.travel.Model.bean.Addr;
 import com.ikiler.travel.Model.bean.Code;
 import com.ikiler.travel.Model.bean.Food;
-import com.ikiler.travel.util.GsonUtil;
-import com.ikiler.travel.util.HttpConfig;
-import com.ikiler.travel.util.OkHttpUtil;
-import com.ikiler.travel.util.RssHandler;
+import com.ikiler.travel.Model.bean.PersonTicket;
+import com.ikiler.travel.Model.bean.Ticket;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
@@ -37,8 +35,8 @@ public class APIconfig {
     public static final String Register = BaseUrl + "/travel/register";
     public static final String Food = BaseUrl + "/travel/FoodManager";
     public static final String Spot = BaseUrl + "/travel/SpotManager";
-    public static final String Ticket = BaseUrl +"/travel/AddrManager";
-//    public static final String Login = BaseUrl +"";
+    public static final String AddrManager = BaseUrl +"/travel/AddrManager";
+    public static final String TicketManager = BaseUrl +"/travel/TicketManager";
 //    public static final String Login = BaseUrl +"";
 //    public static final String Login = BaseUrl +"";
 //    public static final String Login = BaseUrl +"";
@@ -55,7 +53,7 @@ public class APIconfig {
 
     public static void getCity(BaseLiveData<Addr> liveData){
         Log.e("ml", "GET_CITY");
-        OkHttpUtil.postJsonBody(APIconfig.Ticket, "", new OkHttpUtil.DataCallBack() {
+        OkHttpUtil.postJsonBody(AddrManager, "", new OkHttpUtil.DataCallBack() {
             @Override
             public void calback(String data, boolean flage) {
                 if (flage){
@@ -68,9 +66,77 @@ public class APIconfig {
             }
         });
     }
-    public static void getTicket(){
+    public static void getTickets(com.ikiler.travel.Model.bean.Ticket ticket){
+        String json = GsonUtil.GsonString(ticket);
+        OkHttpUtil.postJsonBody(TicketManager+"?action=select",json, new OkHttpUtil.DataCallBack() {
+            @Override
+            public void calback(String data, boolean flage) {
+                if (flage){
+                    Code code = GsonUtil.GsonToBean(data,Code.class);
+                    if (code.getCode() == HttpConfig.REQUEST_SUCCESS){
+                        List<Ticket> list = GsonUtil.jsonToList(code.getData(),Ticket.class);
+                        Log.e("ml",code.getData());
+                        Log.e("ml","ReceiveNETTTTTTTTT"+list.get(0).getTimeFrom());
+                        LiveBus.getDefault().subscribe("Ticket").setValue(new Ticket(list));
+                    }
+                }
+            }
+        });
 
     }
+    public static void buyTicket(String id){
+        Map<String, String> map = new HashMap<>();
+        map.put("action", "buy");
+        map.put("id",id);
+        OkHttpUtil.post(TicketManager, map, new OkHttpUtil.DataCallBack() {
+            @Override
+            public void calback(String data, boolean flage) {
+                if (flage){
+                    Code code = GsonUtil.GsonToBean(data,Code.class);
+                    if (code.getCode() == HttpConfig.REQUEST_SUCCESS){
+                        LiveBus.getDefault().subscribe("Net").setValue(true);
+                        return;
+                    }
+                }
+                LiveBus.getDefault().subscribe("Net").setValue(false);
+            }
+        });
+    }
+    public static void delTicket(PersonTicket personTicket){
+        OkHttpUtil.postJsonBody(TicketManager+"?action=delete", GsonUtil.GsonString(personTicket), new OkHttpUtil.DataCallBack() {
+            @Override
+            public void calback(String data, boolean flage) {
+                if (flage){
+                    Code code = GsonUtil.GsonToBean(data,Code.class);
+                    if (code.getCode() == HttpConfig.REQUEST_SUCCESS){
+                        LiveBus.getDefault().subscribe("Net").setValue(true);
+                        return;
+                    }
+                }
+                LiveBus.getDefault().subscribe("Net").setValue(false);
+            }
+        });
+    }
+    public static void getMyTicket(){
+        Map<String, String> map = new HashMap<>();
+        map.put("action", "selectPerson");
+        OkHttpUtil.post(TicketManager, map, new OkHttpUtil.DataCallBack() {
+            @Override
+            public void calback(String data, boolean flage) {
+                if (flage){
+                    Code code = GsonUtil.GsonToBean(data,Code.class);
+                    if (code.getCode() == HttpConfig.REQUEST_SUCCESS){
+                        List<PersonTicket> list = GsonUtil.jsonToList(code.getData(),PersonTicket.class);
+                        PersonTicket p = new PersonTicket();
+                        p.setList(list);
+                        LiveBus.getDefault().subscribe("MyTicket").setValue(p);
+                    }
+                }
+            }
+        });
+
+    }
+
     public static void refershFoods() {
         Log.e("ml", "REF_FOOD");
         final FoodLiveDataModel model = FoodLiveDataModel.instance();
@@ -138,7 +204,7 @@ public class APIconfig {
             public void calback(String data, boolean flage) {
                 if (flage) {
                     Code code = GsonUtil.GsonToBean(data, Code.class);
-                    List<com.ikiler.travel.Model.bean.Food> foodList = GsonUtil.jsonToList(code.getData().replaceAll("\\\\", ""), Food.class);
+                    List<com.ikiler.travel.Model.bean.Food> foodList = GsonUtil.jsonToList(code.getData(), Food.class);
                     model.getMutableLiveDatas().setValue(foodList);
                 }
             }

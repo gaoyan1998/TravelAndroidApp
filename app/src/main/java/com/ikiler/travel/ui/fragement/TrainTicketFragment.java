@@ -1,21 +1,22 @@
 package com.ikiler.travel.ui.fragement;
 
+ import android.content.Intent;
  import android.os.Bundle;
-import android.view.LayoutInflater;
+ import android.util.Log;
+ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.ikiler.travel.APIconfig;
+import com.ikiler.travel.util.APIconfig;
 import com.ikiler.travel.Base.BaseFragement;
-import com.ikiler.travel.Base.BaseLiveData;
-import com.ikiler.travel.Control.TicketManager;
-import com.ikiler.travel.Model.CallBack;
-import com.ikiler.travel.Model.bean.Addr;
- import com.ikiler.travel.Model.bean.Ticket;
+ import com.ikiler.travel.Model.CallBack;
+ import com.ikiler.travel.Model.TrainTicketLiveModel;
+ import com.ikiler.travel.Model.bean.Addr;
  import com.ikiler.travel.R;
+ import com.ikiler.travel.ui.TicketShowActivity;
 
  import org.feezu.liuli.timeselector.TimeSelector;
 
@@ -26,7 +27,8 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
  import androidx.lifecycle.Observer;
-import butterknife.BindView;
+ import androidx.lifecycle.ViewModelProviders;
+ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -44,13 +46,12 @@ public class TrainTicketFragment extends BaseFragement {
     @BindView(R.id.travel_time)
     TextView travel_time;
 
-    private TicketManager manager;
-    private BaseLiveData<Addr> liveData;
+    private TrainTicketLiveModel liveData;
     private Addr addrFrom,adrTo;
     List<Addr> list;
 
     private int SELECT_FROM = 0;
-    private int SELECT_TO = 0;
+    private int SELECT_TO = 1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,6 @@ public class TrainTicketFragment extends BaseFragement {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_train_ticket, container, false);
     }
 
@@ -68,8 +68,7 @@ public class TrainTicketFragment extends BaseFragement {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this, view);
-        manager = new TicketManager(this);
-        liveData = new BaseLiveData();
+        liveData = ViewModelProviders.of(getActivity()).get(TrainTicketLiveModel.class);
         liveData.getMutableLiveDatas().observe(this, new Observer<List<Addr>>() {
             @Override
             public void onChanged(List<Addr> addrs) {
@@ -94,10 +93,16 @@ public class TrainTicketFragment extends BaseFragement {
                showDataPicker();
                 break;
             case R.id.search_ticket:
-                Ticket ticket = new Ticket();
-                ticket.setFrom(addrFrom.getId());
-                ticket.setTo(adrTo.getId());
-
+                if (addrFrom == null || adrTo == null){
+                    showToast("请选择城市");
+                    return;
+                }
+                Intent  intent = new Intent(getActivity(), TicketShowActivity.class);
+                intent.putExtra("from",addrFrom.getId());
+                intent.putExtra("to",adrTo.getId());
+                intent.putExtra("fromName",addrFrom.getName());
+                intent.putExtra("toName",adrTo.getName());
+                startActivity(intent);
                 break;
         }
     }

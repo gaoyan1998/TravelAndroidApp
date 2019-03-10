@@ -9,7 +9,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import android.util.Log;
 
 import com.google.android.material.navigation.NavigationView;
-import com.ikiler.travel.APIconfig;
+import com.ikiler.travel.util.APIconfig;
 import com.ikiler.travel.Base.BaseActivity;
 import com.ikiler.travel.Model.bean.WeatherBean;
 import com.ikiler.travel.MainActivity;
@@ -37,7 +37,6 @@ import androidx.annotation.NonNull;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -45,8 +44,6 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.view.MenuItem;
 import android.widget.TextView;
-
-import org.feezu.liuli.timeselector.TimeSelector;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

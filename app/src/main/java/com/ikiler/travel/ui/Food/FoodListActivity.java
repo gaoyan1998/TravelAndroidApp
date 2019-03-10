@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.ikiler.travel.APIconfig;
+import com.ikiler.travel.util.APIconfig;
 import com.ikiler.travel.Base.BaseRecyleAdapter;
 import com.ikiler.travel.Base.BaseActivity;
 import com.ikiler.travel.Model.CallBack;
@@ -45,8 +45,10 @@ public class FoodListActivity extends BaseActivity {
                     cancelNetDialog();
                     switch (code) {
                         case CODE_FROM_BASEACTIVITY:
-                            showNetProgress();
-                            itemDelete((Food) object,this);
+                            if (flage){
+                                showNetProgress();
+                                itemDelete((Food) object,this);
+                            }
                             break;
                         case HttpConfig.REQUEST_SUCCESS:
                             showToast("删除成功");

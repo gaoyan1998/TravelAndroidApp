@@ -6,8 +6,9 @@ import com.ikiler.travel.Model.RssItem;
 import java.util.List;
 
 import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModel;
 
-public  class BaseLiveData <T>{
+public  class BaseLiveData <T> extends ViewModel {
     private MutableLiveData<T> mutableLiveData;
     private MutableLiveData<List<T>> mutableLiveDatas;
 

@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.ikiler.travel.APIconfig;
+import com.ikiler.travel.util.APIconfig;
 import com.ikiler.travel.Base.BaseActivity;
 import com.ikiler.travel.Model.bean.Code;
 import com.ikiler.travel.Model.bean.User;
