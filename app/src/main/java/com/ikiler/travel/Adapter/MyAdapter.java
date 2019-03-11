@@ -85,42 +85,11 @@ public class MyAdapter extends BaseAdapter {
 			holder.song.setText(string_song.trim());
 		}
 		if (i == position_flag) {
-			switch (Theme) {
-			case "blue":
-				holder.song.setTextColor(myBlue);
-				holder.singer.setTextColor(myBlue);
-				holder.duration.setTextColor(myBlue);
-				holder.position.setText("");
-				holder.position.setBackgroundResource(R.mipmap.play_small);
-				break;
-			case "purple":
-				holder.song.setTextColor(myPurple);
-				holder.singer.setTextColor(myPurple);
-				holder.duration.setTextColor(myPurple);
-				holder.position.setText("");
-				holder.position
-						.setBackgroundResource(R.mipmap.play_small_purple);
-				break;
-			case "green":
-				holder.song.setTextColor(myGreeen);
-				holder.singer.setTextColor(myGreeen);
-				holder.duration.setTextColor(myGreeen);
-				holder.position.setText("");
-				holder.position
-						.setBackgroundResource(R.mipmap.play_small_green);
-				break;
-			case "red":
-				holder.song.setTextColor(myRed);
-				holder.singer.setTextColor(myRed);
-				holder.duration.setTextColor(myRed);
-				holder.position.setText("");
-				holder.position
-						.setBackgroundResource(R.mipmap.play_small_red);
-				break;
-			default:
-				break;
-			}
-
+			holder.song.setTextColor(myBlue);
+			holder.singer.setTextColor(myBlue);
+			holder.duration.setTextColor(myBlue);
+			holder.position.setText("");
+			holder.position.setBackgroundResource(R.mipmap.play_small);
 		} else {
 			holder.song.setTextColor(Color.BLACK);
 			holder.singer.setTextColor(Color.BLACK);

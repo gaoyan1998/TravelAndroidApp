@@ -14,7 +14,6 @@ public class App extends Application {
         super.onCreate();
         MMKV.initialize(this);
         SDKInitializer.initialize(getApplicationContext());
-
     }
 
     public User getUser() {
