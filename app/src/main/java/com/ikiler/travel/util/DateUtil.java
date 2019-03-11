@@ -73,7 +73,7 @@ public static Date stringToDate(String time){
         formatter = new SimpleDateFormat ("yyyy-MM-dd KK:mm:ss a");
         }
         ParsePosition pos = new ParsePosition(0);
-        java.util.Date ctime = formatter.parse(time, pos);
+        Date ctime = formatter.parse(time, pos);
 
         return ctime;
         }

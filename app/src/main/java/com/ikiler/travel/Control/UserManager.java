@@ -31,6 +31,6 @@ public class UserManager {
     }
 
     public interface CallBack{
-        void Calback(User user,String msg);
+        void Calback(User user, String msg);
     }
 }

@@ -26,6 +26,8 @@ public abstract class BaseRecyleAdapter<T, V extends BaseRecyleAdapter.ViewHolde
 
     public void setList(List<T> list) {
         this.list = list;
+        if (list == null || list.size()<=0)
+            list = new ArrayList<>();
         notifyDataSetChanged();
     }
 

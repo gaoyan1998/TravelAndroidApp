@@ -31,8 +31,11 @@ public class APIconfig {
     public static final String WeatherUrl = "https://free-api.heweather.net/s6/weather";
     public static final String FeedUrl = "http://www.travel5156.com/index.php?m=content&c=rss&rssid=9";
 
-    //        public static final String BaseUrl = "http://192.168.1.105:8080";
-    public static final String BaseUrl = "http://106.13.63.57:8080";
+//    public static final String BaseUrl = "http://192.168.1.105:8080";
+        public static final String BaseUrl = "http://106.13.63.57:8080";
+
+
+
     public static final String Login = BaseUrl + "/travel/Login";
     public static final String Register = BaseUrl + "/travel/register";
     public static final String Food = BaseUrl + "/travel/FoodManager";
@@ -44,18 +47,10 @@ public class APIconfig {
     public static final String NoteAdd = BaseUrl + "/travel/addNote";
     public static final String PhoneManager = BaseUrl + "/travel/PhoneManager";
 
-    //    public static final String Login = BaseUrl +"";
-//    public static final String Login = BaseUrl +"";
-//    public static final String Login = BaseUrl +"";
-//    public static final String Login = BaseUrl +"";
-//    public static final String Login = BaseUrl +"";
-//    public static final String Login = BaseUrl +"";
-//    public static final String Login = BaseUrl +"";
-//    public static final String Login = BaseUrl +"";
 
-    public static void addPhone(Phone phone){
+    public static void addPhone(Phone phone) {
         Log.e("ml", "ADD_Phone");
-        OkHttpUtil.postJsonBody(PhoneManager+"?action=add", GsonUtil.GsonString(phone), new OkHttpUtil.DataCallBack() {
+        OkHttpUtil.postJsonBody(PhoneManager + "?action=add", GsonUtil.GsonString(phone), new OkHttpUtil.DataCallBack() {
             @Override
             public void calback(String data, boolean flage) {
                 if (flage) {
@@ -69,11 +64,12 @@ public class APIconfig {
             }
         });
     }
+
     public static void delPhone(Phone phone) {
         Log.e("ml", "DEL_PHONE");
         Map<String, String> map = new HashMap<>();
         map.put("id", phone.getId() + "");
-        map.put("action","delete");
+        map.put("action", "delete");
         OkHttpUtil.post(PhoneManager, map, new OkHttpUtil.DataCallBack() {
             @Override
             public void calback(String data, boolean flage) {
@@ -175,7 +171,7 @@ public class APIconfig {
         });
     }
 
-    public static void getTickets(com.ikiler.travel.Model.bean.Ticket ticket) {
+    public static void getTickets(Ticket ticket) {
         String json = GsonUtil.GsonString(ticket);
         OkHttpUtil.postJsonBody(TicketManager + "?action=select", json, new OkHttpUtil.DataCallBack() {
             @Override
@@ -259,6 +255,9 @@ public class APIconfig {
             public void calback(String data, boolean flage) {
                 if (flage) {
                     Code code = GsonUtil.GsonToBean(data, Code.class);
+                    if (code.getData().equals("null")){
+                        return;
+                    }
                     List<com.ikiler.travel.Model.bean.Food> foodList = GsonUtil.jsonToList(code.getData(), Food.class);
                     model.getMutableLiveDatas().setValue(foodList);
                 }
@@ -316,7 +315,12 @@ public class APIconfig {
             public void calback(String data, boolean flage) {
                 if (flage) {
                     Code code = GsonUtil.GsonToBean(data, Code.class);
-                    List<com.ikiler.travel.Model.bean.Food> foodList = GsonUtil.jsonToList(code.getData(), Food.class);
+                    if (code.getData().equals("null")){
+                        return;
+                    }
+                    String data1 = code.getData().replaceAll("\\\\","");
+                    Log.e("ml",data1);
+                    List<com.ikiler.travel.Model.bean.Food> foodList = GsonUtil.jsonToList(data1, Food.class);
                     model.getMutableLiveDatas().setValue(foodList);
                 }
             }

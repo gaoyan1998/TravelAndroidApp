@@ -51,6 +51,12 @@ public class NoteActivity extends BaseActivity {
 
     }
     private void initListener() {
+        adapter.setOnRecyclerItemClickLitener(new BaseRecyleAdapter.onRecyclerItemClickLitener() {
+            @Override
+            public void onRecyclerItemClick(Object object, int position) {
+                
+            }
+        });
         adapter.setOnRecyclerItemLongClicjk(new BaseRecyleAdapter.onRecyclerItemLongClicjk() {
             @Override
             public void onRecyclerItemLongClick(Object object, int position) {

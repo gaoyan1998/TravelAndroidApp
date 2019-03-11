@@ -1,6 +1,7 @@
 package com.ikiler.travel.ui.fragement;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -60,12 +61,13 @@ public class FeedFragment extends Fragment {
             adapter.setOnRecyclerItemClickLitener(new BaseRecyleAdapter.onRecyclerItemClickLitener() {
                 @Override
                 public void onRecyclerItemClick(Object object, int position) {
-                    FeedLiveDataModel.instance().getMutableLiveData().setValue((RssItem) object);
-                    FeedContentFragment feedContentFragment = new FeedContentFragment();
-                    FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                    transaction.addToBackStack(null);
-                    transaction.replace(R.id.content,feedContentFragment);
-                    transaction.commit();
+                    RssItem item = (RssItem) object;
+                    Intent intent = new Intent(getActivity(),FeedContentActivity.class);
+                    intent.putExtra("title",item.getTitle());
+                    intent.putExtra("time",item.getPubdate());
+                    intent.putExtra("content",item.getDescription());
+
+                    getActivity().startActivity(intent);
                 }
             });
 

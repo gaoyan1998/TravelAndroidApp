@@ -44,7 +44,7 @@ public class PersonalFragment extends BaseFragement {
         username.setText(((BaseActivity) getActivity()).getUser().getName());
     }
 
-    @OnClick({R.id.layout_setting,R.id.layout_logout,R.id.layout_phone,R.id.layout_note,R.id.layout_ticket})
+    @OnClick({R.id.layout_logout,R.id.layout_phone,R.id.layout_note,R.id.layout_ticket})
     public void onViewClicked(View view){
         switch (view.getId()){
             case R.id.layout_ticket:
@@ -69,8 +69,6 @@ public class PersonalFragment extends BaseFragement {
                 break;
             case R.id.layout_phone:
                 startActivity(new Intent(getActivity(), PhoneActivity.class));
-                break;
-            case R.id.layout_setting:
                 break;
         }
     }
