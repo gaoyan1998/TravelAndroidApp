@@ -6,20 +6,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ikiler.travel.Base.BaseActivity;
 import com.ikiler.travel.Base.BaseFragement;
+import com.ikiler.travel.ui.PhoneActivity;
 import com.ikiler.travel.Model.CallBack;
 import com.ikiler.travel.R;
 import com.ikiler.travel.ui.LoginActivity;
 import com.ikiler.travel.ui.MyTicketActivity;
-import com.ikiler.travel.util.App;
+import com.ikiler.travel.ui.NoteActivity;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -66,8 +65,10 @@ public class PersonalFragment extends BaseFragement {
                 });
                 break;
             case R.id.layout_note:
+                startActivity(new Intent(getActivity(), NoteActivity.class));
                 break;
             case R.id.layout_phone:
+                startActivity(new Intent(getActivity(), PhoneActivity.class));
                 break;
             case R.id.layout_setting:
                 break;

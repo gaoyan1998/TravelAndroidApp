@@ -37,12 +37,14 @@
         <activity android:name=".MainActivity" />
         <activity android:name=".MeishiActivity" />
         <activity android:name=".BijiActivity" />
-        <activity android:name=".DianHuaActivity" />
+        <activity
+            android:name=".ui.PhoneActivity"
+            android:label="电话本" />
         <activity android:name=".TianQiActivity" />
         <activity android:name=".DiTuActivity" />
         <activity android:name=".JianDianActivity" />
         <activity android:name=".MeishiDemo" />
-        <activity android:name=".BijiBianjiActivity" />
+        <activity android:name=".ui.NoteEditActivity" />
 
         <service
             android:name="com.baidu.location.f"
@@ -89,7 +91,12 @@
         <activity
             android:name=".ui.MyTicketActivity"
             android:label="@string/title_activity_my_ticket"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".ui.NoteActivity"
+            android:label="添加电话本"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".ui.AddPhoneActivity"></activity>
     </application>
 
 </manifest>

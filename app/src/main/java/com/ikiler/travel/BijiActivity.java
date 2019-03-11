@@ -9,6 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.ikiler.travel.ui.NoteEditActivity;
+
 import java.util.List;
 import java.util.Map;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,7 +32,7 @@ public class BijiActivity extends AppCompatActivity {
         iv_biji.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(BijiActivity.this,BijiBianjiActivity.class);
+                Intent intent = new Intent(BijiActivity.this, NoteEditActivity.class);
                 startActivity(intent);
             }
         });

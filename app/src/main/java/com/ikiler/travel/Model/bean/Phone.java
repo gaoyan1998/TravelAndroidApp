@@ -1,5 +1,7 @@
 package com.ikiler.travel.Model.bean;
 
+import java.util.List;
+
 /**
  * Created by ikiler on 2019/2/23.
  * Email : ikiler@126.com
@@ -10,6 +12,7 @@ public class Phone {
     private int userId;
     private String name;
     private String number;
+    private List<Phone>list;
 
     public Phone(int id, int userId, String name, String number) {
         this.id = id;
@@ -19,6 +22,18 @@ public class Phone {
     }
 
     public Phone() {
+    }
+
+    public Phone(List<Phone> list) {
+        this.list = list;
+    }
+
+    public List<Phone> getList() {
+        return list;
+    }
+
+    public void setList(List<Phone> list) {
+        this.list = list;
     }
 
     public int getId() {

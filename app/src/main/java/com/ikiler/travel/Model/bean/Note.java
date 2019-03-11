@@ -1,5 +1,7 @@
 package com.ikiler.travel.Model.bean;
 
+import java.util.List;
+
 /**
  * Created by ikiler on 2019/2/22.
  * Email : ikiler@126.com
@@ -10,12 +12,25 @@ public class Note {
     private String content;
     private String picPath;
     private String voicePath;
+    private List<Note> list;
 
     public Note(int userId, String content, String picPath, String voicePath) {
         this.userId = userId;
         this.content = content;
         this.picPath = picPath;
         this.voicePath = voicePath;
+    }
+
+    public Note(List<Note> list) {
+        this.list = list;
+    }
+
+    public List<Note> getList() {
+        return list;
+    }
+
+    public void setList(List<Note> list) {
+        this.list = list;
     }
 
     public Note() { }
