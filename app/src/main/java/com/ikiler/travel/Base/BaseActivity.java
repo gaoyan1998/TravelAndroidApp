@@ -30,6 +30,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     public User getUser() {
+
         User user = new User();
         String name = mmkv.decodeString("name", "");
         String pwd = mmkv.decodeString("pwd", "");
@@ -42,6 +43,8 @@ public class BaseActivity extends AppCompatActivity {
 
     /**
      * Toast提示
+     *
+     *
      *
      * @param text
      */
