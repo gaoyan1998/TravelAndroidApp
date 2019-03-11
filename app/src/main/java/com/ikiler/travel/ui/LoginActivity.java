@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import com.ikiler.travel.Base.BaseActivity;
 import com.ikiler.travel.Model.bean.User;
 import com.ikiler.travel.Control.UserManager;
-import com.ikiler.travel.MainActivity;
 import com.ikiler.travel.R;
 import com.ikiler.travel.util.App;
 import com.ikiler.travel.util.AppUtils;

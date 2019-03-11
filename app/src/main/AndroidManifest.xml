@@ -34,16 +34,9 @@
                 android:resource="@xml/filepaths" />
         </provider>
 
-        <activity android:name=".MainActivity" />
-        <activity android:name=".MeishiActivity" />
-        <activity android:name=".BijiActivity" />
         <activity
             android:name=".ui.PhoneActivity"
             android:label="电话本" />
-        <activity android:name=".TianQiActivity" />
-        <activity android:name=".DiTuActivity" />
-        <activity android:name=".JianDianActivity" />
-        <activity android:name=".MeishiDemo" />
         <activity android:name=".ui.NoteEditActivity" />
 
         <service

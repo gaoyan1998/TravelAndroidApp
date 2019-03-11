@@ -4,12 +4,8 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.widget.Toast;
 
-import com.ikiler.travel.Base.BaseActivity;
-import com.ikiler.travel.MainActivity;
 import com.ikiler.travel.Model.CallBack;
-import com.ikiler.travel.R;
 
 public class DialogUtil {
 

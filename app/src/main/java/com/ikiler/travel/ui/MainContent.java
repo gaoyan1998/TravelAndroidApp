@@ -12,7 +12,6 @@ import com.google.android.material.navigation.NavigationView;
 import com.ikiler.travel.util.APIconfig;
 import com.ikiler.travel.Base.BaseActivity;
 import com.ikiler.travel.Model.bean.WeatherBean;
-import com.ikiler.travel.MainActivity;
 import com.ikiler.travel.R;
 import com.ikiler.travel.ui.Food.FoodListActivity;
 import com.ikiler.travel.ui.Spot.SpotActivity;
@@ -283,7 +282,6 @@ public class MainContent extends BaseActivity
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
-            startActivity(new Intent(getApplicationContext(), MainActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
