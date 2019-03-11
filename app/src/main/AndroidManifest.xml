@@ -109,7 +109,7 @@
             android:theme="@style/AppTheme" />
         <activity
             android:name=".ui.NoteActivity"
-            android:label="添加电话本"
+            android:label="笔记列表"
             android:theme="@style/AppTheme" />
         <activity android:name=".ui.AddPhoneActivity" />
         <activity android:name=".ui.MapGuidActivity" />

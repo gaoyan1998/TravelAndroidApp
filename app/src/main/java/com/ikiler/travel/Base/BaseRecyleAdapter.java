@@ -48,6 +48,8 @@ public abstract class BaseRecyleAdapter<T, V extends BaseRecyleAdapter.ViewHolde
                         onRecyclerItemClickLitener.onRecyclerItemClick(holder.getObject(), position);
                 }
             });
+        }
+        if (onRecyclerItemLongClicjk != null) {
             holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
