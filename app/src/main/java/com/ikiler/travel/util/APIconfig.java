@@ -10,7 +10,9 @@ import com.ikiler.travel.Model.RssItem;
 import com.ikiler.travel.Model.bean.Addr;
 import com.ikiler.travel.Model.bean.Code;
 import com.ikiler.travel.Model.bean.Food;
+import com.ikiler.travel.Model.bean.Note;
 import com.ikiler.travel.Model.bean.PersonTicket;
+import com.ikiler.travel.Model.bean.Phone;
 import com.ikiler.travel.Model.bean.Ticket;
 
 import org.xml.sax.InputSource;
@@ -35,13 +37,14 @@ public class APIconfig {
     public static final String Register = BaseUrl + "/travel/register";
     public static final String Food = BaseUrl + "/travel/FoodManager";
     public static final String Spot = BaseUrl + "/travel/SpotManager";
-    public static final String AddrManager = BaseUrl +"/travel/AddrManager";
-    public static final String TicketManager = BaseUrl +"/travel/TicketManager";
-//    public static final String Login = BaseUrl +"";
-//    public static final String Login = BaseUrl +"";
-//    public static final String Login = BaseUrl +"";
-//    public static final String Login = BaseUrl +"";
-//    public static final String Login = BaseUrl +"";
+    public static final String AddrManager = BaseUrl + "/travel/AddrManager";
+    public static final String TicketManager = BaseUrl + "/travel/TicketManager";
+    public static final String NoteMnager = BaseUrl + "/travel/getNote";
+    public static final String NoteDel = BaseUrl + "/travel/deleteNote";
+    public static final String NoteAdd = BaseUrl + "/travel/addNote";
+    public static final String PhoneManager = BaseUrl + "/travel/PhoneManager";
+
+    //    public static final String Login = BaseUrl +"";
 //    public static final String Login = BaseUrl +"";
 //    public static final String Login = BaseUrl +"";
 //    public static final String Login = BaseUrl +"";
@@ -50,33 +53,139 @@ public class APIconfig {
 //    public static final String Login = BaseUrl +"";
 //    public static final String Login = BaseUrl +"";
 
+    public static void addPhone(Phone phone){
+        Log.e("ml", "ADD_Phone");
+        OkHttpUtil.postJsonBody(PhoneManager+"?action=add", GsonUtil.GsonString(phone), new OkHttpUtil.DataCallBack() {
+            @Override
+            public void calback(String data, boolean flage) {
+                if (flage) {
+                    Code code = GsonUtil.GsonToBean(data, Code.class);
+                    if (code != null && code.getCode() == HttpConfig.REQUEST_SUCCESS) {
+                        LiveBus.getDefault().subscribe("Net").setValue(true);
+                        return;
+                    }
+                }
+                LiveBus.getDefault().subscribe("Net").setValue(false);
+            }
+        });
+    }
+    public static void delPhone(Phone phone) {
+        Log.e("ml", "DEL_PHONE");
+        Map<String, String> map = new HashMap<>();
+        map.put("id", phone.getId() + "");
+        map.put("action","delete");
+        OkHttpUtil.post(PhoneManager, map, new OkHttpUtil.DataCallBack() {
+            @Override
+            public void calback(String data, boolean flage) {
+                if (flage) {
+                    Code code = GsonUtil.GsonToBean(data, Code.class);
+                    if (code != null && code.getCode() == HttpConfig.REQUEST_SUCCESS) {
+                        LiveBus.getDefault().subscribe("Net").setValue(true);
+                        return;
+                    }
+                }
+                LiveBus.getDefault().subscribe("Net").setValue(false);
+            }
+        });
+    }
 
-    public static void getCity(BaseLiveData<Addr> liveData){
+    public static void refeshPhone() {
+        Log.e("ml", "GET_PHONE");
+        Map<String, String> map = new HashMap<>();
+        map.put("action", "select");
+        OkHttpUtil.post(PhoneManager, map, new OkHttpUtil.DataCallBack() {
+            @Override
+            public void calback(String data, boolean flage) {
+                if (flage) {
+                    Code code = GsonUtil.GsonToBean(data, Code.class);
+                    if (code != null && code.getCode() == HttpConfig.REQUEST_SUCCESS) {
+                        List<Phone> list = GsonUtil.jsonToList(code.getData(), Phone.class);
+                        LiveBus.getDefault().subscribe("Phone").postValue(new Phone(list));
+                    }
+                }
+            }
+        });
+    }
+
+    public static void refeshNote() {
+        Log.e("ml", "GET_NOTE");
+        OkHttpUtil.postJsonBody(NoteMnager, "", new OkHttpUtil.DataCallBack() {
+            @Override
+            public void calback(String data, boolean flage) {
+                if (flage) {
+                    Code code = GsonUtil.GsonToBean(data, Code.class);
+                    if (code != null && code.getCode() == HttpConfig.REQUEST_SUCCESS) {
+                        List<Note> list = GsonUtil.jsonToList(code.getData(), Note.class);
+                        LiveBus.getDefault().subscribe("Note").postValue(new Note(list));
+                    }
+                }
+            }
+        });
+    }
+
+    public static void addNote(Note note) {
+        Log.e("ml", "ADD_NOTE");
+        OkHttpUtil.postJsonBody(NoteAdd, GsonUtil.GsonString(note), new OkHttpUtil.DataCallBack() {
+            @Override
+            public void calback(String data, boolean flage) {
+                if (flage) {
+                    Code code = GsonUtil.GsonToBean(data, Code.class);
+                    if (code != null && code.getCode() == HttpConfig.REQUEST_SUCCESS) {
+                        LiveBus.getDefault().subscribe("Net").setValue(true);
+                        return;
+                    }
+                }
+                LiveBus.getDefault().subscribe("Net").setValue(false);
+            }
+        });
+    }
+
+    public static void delNote(Note note) {
+        Log.e("ml", "DEL_NOTE");
+        Map<String, String> map = new HashMap<>();
+        map.put("id", note.getId() + "");
+        OkHttpUtil.post(NoteDel, map, new OkHttpUtil.DataCallBack() {
+            @Override
+            public void calback(String data, boolean flage) {
+                if (flage) {
+                    Code code = GsonUtil.GsonToBean(data, Code.class);
+                    if (code != null && code.getCode() == HttpConfig.REQUEST_SUCCESS) {
+                        LiveBus.getDefault().subscribe("Net").setValue(true);
+                        return;
+                    }
+                }
+                LiveBus.getDefault().subscribe("Net").setValue(false);
+            }
+        });
+    }
+
+    public static void getCity(BaseLiveData<Addr> liveData) {
         Log.e("ml", "GET_CITY");
         OkHttpUtil.postJsonBody(AddrManager, "", new OkHttpUtil.DataCallBack() {
             @Override
             public void calback(String data, boolean flage) {
-                if (flage){
-                    Code code = GsonUtil.GsonToBean(data,Code.class);
-                    if (code.getCode() == HttpConfig.REQUEST_SUCCESS){
-                        List<Addr> list = GsonUtil.jsonToList(code.getData(),Addr.class);
+                if (flage) {
+                    Code code = GsonUtil.GsonToBean(data, Code.class);
+                    if (code.getCode() == HttpConfig.REQUEST_SUCCESS) {
+                        List<Addr> list = GsonUtil.jsonToList(code.getData(), Addr.class);
                         liveData.getMutableLiveDatas().setValue(list);
                     }
                 }
             }
         });
     }
-    public static void getTickets(com.ikiler.travel.Model.bean.Ticket ticket){
+
+    public static void getTickets(com.ikiler.travel.Model.bean.Ticket ticket) {
         String json = GsonUtil.GsonString(ticket);
-        OkHttpUtil.postJsonBody(TicketManager+"?action=select",json, new OkHttpUtil.DataCallBack() {
+        OkHttpUtil.postJsonBody(TicketManager + "?action=select", json, new OkHttpUtil.DataCallBack() {
             @Override
             public void calback(String data, boolean flage) {
-                if (flage){
-                    Code code = GsonUtil.GsonToBean(data,Code.class);
-                    if (code.getCode() == HttpConfig.REQUEST_SUCCESS){
-                        List<Ticket> list = GsonUtil.jsonToList(code.getData(),Ticket.class);
-                        Log.e("ml",code.getData());
-                        Log.e("ml","ReceiveNETTTTTTTTT"+list.get(0).getTimeFrom());
+                if (flage) {
+                    Code code = GsonUtil.GsonToBean(data, Code.class);
+                    if (code.getCode() == HttpConfig.REQUEST_SUCCESS) {
+                        List<Ticket> list = GsonUtil.jsonToList(code.getData(), Ticket.class);
+                        Log.e("ml", code.getData());
+                        Log.e("ml", "ReceiveNETTTTTTTTT" + list.get(0).getTimeFrom());
                         LiveBus.getDefault().subscribe("Ticket").setValue(new Ticket(list));
                     }
                 }
@@ -84,16 +193,17 @@ public class APIconfig {
         });
 
     }
-    public static void buyTicket(String id){
+
+    public static void buyTicket(String id) {
         Map<String, String> map = new HashMap<>();
         map.put("action", "buy");
-        map.put("id",id);
+        map.put("id", id);
         OkHttpUtil.post(TicketManager, map, new OkHttpUtil.DataCallBack() {
             @Override
             public void calback(String data, boolean flage) {
-                if (flage){
-                    Code code = GsonUtil.GsonToBean(data,Code.class);
-                    if (code.getCode() == HttpConfig.REQUEST_SUCCESS){
+                if (flage) {
+                    Code code = GsonUtil.GsonToBean(data, Code.class);
+                    if (code.getCode() == HttpConfig.REQUEST_SUCCESS) {
                         LiveBus.getDefault().subscribe("Net").setValue(true);
                         return;
                     }
@@ -102,13 +212,14 @@ public class APIconfig {
             }
         });
     }
-    public static void delTicket(PersonTicket personTicket){
-        OkHttpUtil.postJsonBody(TicketManager+"?action=delete", GsonUtil.GsonString(personTicket), new OkHttpUtil.DataCallBack() {
+
+    public static void delTicket(PersonTicket personTicket) {
+        OkHttpUtil.postJsonBody(TicketManager + "?action=delete", GsonUtil.GsonString(personTicket), new OkHttpUtil.DataCallBack() {
             @Override
             public void calback(String data, boolean flage) {
-                if (flage){
-                    Code code = GsonUtil.GsonToBean(data,Code.class);
-                    if (code.getCode() == HttpConfig.REQUEST_SUCCESS){
+                if (flage) {
+                    Code code = GsonUtil.GsonToBean(data, Code.class);
+                    if (code != null && code.getCode() == HttpConfig.REQUEST_SUCCESS) {
                         LiveBus.getDefault().subscribe("Net").setValue(true);
                         return;
                     }
@@ -117,16 +228,17 @@ public class APIconfig {
             }
         });
     }
-    public static void getMyTicket(){
+
+    public static void getMyTicket() {
         Map<String, String> map = new HashMap<>();
         map.put("action", "selectPerson");
         OkHttpUtil.post(TicketManager, map, new OkHttpUtil.DataCallBack() {
             @Override
             public void calback(String data, boolean flage) {
-                if (flage){
-                    Code code = GsonUtil.GsonToBean(data,Code.class);
-                    if (code.getCode() == HttpConfig.REQUEST_SUCCESS){
-                        List<PersonTicket> list = GsonUtil.jsonToList(code.getData(),PersonTicket.class);
+                if (flage) {
+                    Code code = GsonUtil.GsonToBean(data, Code.class);
+                    if (code != null && code.getCode() == HttpConfig.REQUEST_SUCCESS) {
+                        List<PersonTicket> list = GsonUtil.jsonToList(code.getData(), PersonTicket.class);
                         PersonTicket p = new PersonTicket();
                         p.setList(list);
                         LiveBus.getDefault().subscribe("MyTicket").setValue(p);
@@ -255,7 +367,7 @@ public class APIconfig {
         OkHttpUtil.postJsonBody(FeedUrl, "", new OkHttpUtil.DataCallBack() {
             @Override
             public void calback(String data, boolean flage) {
-                if (flage){
+                if (flage) {
                     SAXParserFactory saxParserFactory = SAXParserFactory.newInstance(); //构建SAX解析工厂
                     SAXParser saxParser = null; //解析工厂生产解析器
                     XMLReader xmlReader;
@@ -266,7 +378,7 @@ public class APIconfig {
                         rssHandler = new RssHandler();
                         xmlReader.setContentHandler(rssHandler);
                         xmlReader.parse(new InputSource(new StringReader(data)));
-                    }  catch (Exception e) {
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                     List<RssItem> list = rssHandler.getRssFeed().getRssItems();

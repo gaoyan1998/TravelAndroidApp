@@ -276,9 +276,9 @@ public class MainContent extends BaseActivity
 //            transaction.replace(R.id.content, Weather.newInstance());
         } else if (id == R.id.nav_gallery) {
             startActivity(new Intent(getApplicationContext(), SpotActivity.class));
-        } else if (id == R.id.nav_slideshow) {
+        } else if (id == R.id.nav_map) {
 
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_music) {
 
         } else if (id == R.id.nav_share) {
 

@@ -166,5 +166,6 @@
         "when a user tries to pick up one of cards.\n\n"
     </string>
     <string name="title_activity_my_ticket">MyTicketActivity</string>
+    <string name="title_activity_note">我的旅行日记</string>
 
 </resources>

@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.ikiler.travel.ui.PhoneActivity;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity {
@@ -29,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     }
     public void goDianhua(View view)
     {
-        Intent intent = new Intent(this,DianHuaActivity.class);
+        Intent intent = new Intent(this, PhoneActivity.class);
         startActivity(intent);
     }
     public void goTianqi(View view)
