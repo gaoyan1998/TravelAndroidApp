@@ -3,17 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_di_tu"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.theone.DiTuActivity">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/position_text_view"
+
+    <com.baidu.mapapi.map.MapView
+        android:id="@+id/bmapview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></com.baidu.mapapi.map.MapView>
+
+    <EditText
+        android:id="@+id/search"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"/>
-    <com.baidu.mapapi.map.MapView
+        android:hint="搜索"
+        android:background="@drawable/edit_bg"/>
+    <ListView
+        android:background="@color/white"
+        android:id="@+id/list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/bmapview"></com.baidu.mapapi.map.MapView>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/search"/>
 
 </RelativeLayout>
