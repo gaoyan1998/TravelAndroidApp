@@ -2,7 +2,9 @@ package com.ikiler.travel.ui.Spot;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 
+import com.ikiler.travel.ui.Food.FoodEditActivity;
 import com.ikiler.travel.util.APIconfig;
 import com.ikiler.travel.Model.CallBack;
 import com.ikiler.travel.Model.bean.Food;
@@ -23,6 +25,7 @@ public class SpotActivity extends FoodListActivity {
 
     @Override
     protected void itemClick(Food item) {
+        Log.e("ml","跳转spot");
         model.getMutableLiveData().setValue(item);
         startActivity(new Intent(getApplicationContext(), SpotEditActivity.class));
     }
@@ -30,5 +33,11 @@ public class SpotActivity extends FoodListActivity {
     @Override
     protected void itemDelete(Food food, CallBack callBack) {
         APIconfig.deleteSpot(food.getId(), callBack);
+    }
+
+    @Override
+    public void onAddClicked() {
+        model.getMutableLiveData().setValue(null);
+        startActivity(new Intent(getApplicationContext(), SpotEditActivity.class));
     }
 }

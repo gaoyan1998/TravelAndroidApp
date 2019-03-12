@@ -12,6 +12,7 @@ public class SpotEditActivity extends FoodEditActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getToolbar().setTitle("景点编辑");
     }
 
     @Override
@@ -23,7 +24,8 @@ public class SpotEditActivity extends FoodEditActivity {
                 switch (code) {
                     case HttpConfig.REQUEST_SUCCESS:
                         showToast("修改成功");
-                        APIconfig.refershFoods();
+                        APIconfig.refershSpots();
+                        finish();
                         break;
                     case HttpConfig.NET_ERR:
                         showToast("网络连接失败！");

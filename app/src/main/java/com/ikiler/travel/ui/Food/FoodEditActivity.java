@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,31 +19,42 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.ikiler.travel.util.APIconfig;
 import com.ikiler.travel.Base.BaseActivity;
 import com.ikiler.travel.Model.CallBack;
 import com.ikiler.travel.Model.FoodLiveDataModel;
 import com.ikiler.travel.Model.bean.Food;
 import com.ikiler.travel.R;
+import com.ikiler.travel.util.APIconfig;
+import com.ikiler.travel.util.DialogUtil;
 import com.ikiler.travel.util.HttpConfig;
+import com.ikiler.travel.util.ImageDealUtil;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.FileProvider;
 import androidx.lifecycle.Observer;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class FoodEditActivity extends BaseActivity {
 
-    private EditText name;
-    private EditText detail;
-    private ImageView img;
+    private static final int SELECT_PIC_BY_PICK_PHOTO = 888;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.img)
+    ImageView img;
+    @BindView(R.id.name)
+    EditText name;
+    @BindView(R.id.detail)
+    EditText detail;
     private Uri imageUri;
+    private String imagePath;
     private FoodLiveDataModel model;
     private boolean isEditable = true;
-    private Toolbar toolbar;
     protected String action = "add";
     protected Food mFood;
 
@@ -50,9 +62,8 @@ public class FoodEditActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_food_edit);
-        toolbar =  findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        initView();
         initLiveData();
     }
 
@@ -62,7 +73,6 @@ public class FoodEditActivity extends BaseActivity {
             @Override
             public void onChanged(Food food) {
                 if (food == null) {
-//                    setEditable(true);
                     mFood = new Food();
                     return;
                 }
@@ -110,7 +120,7 @@ public class FoodEditActivity extends BaseActivity {
         if (R.id.action_ok == id) {
             submit();
         } else if (R.id.action_camera == id) {
-            takePhoto();
+            createSelectDialog();
         } else if (R.id.action_editable == id) {
             setEditable(!isEditable);
             item.setIcon(isEditable ? R.drawable.region_edit : R.drawable.region_edit_on);
@@ -118,6 +128,36 @@ public class FoodEditActivity extends BaseActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    private void createSelectDialog() {
+        DialogUtil util = new DialogUtil();
+        util.dialogList(FoodEditActivity.this, new String[]{"相册选取", "拍照"}, "选择", new CallBack() {
+            @Override
+            public void calBack(boolean flage, int code) {
+                if (flage) {
+                    switch (code) {
+                        case 0:
+                            selPhoto();
+                            break;
+                        case 1:
+                            takePhoto();
+                            break;
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * 获取照片
+     */
+    private void selPhoto() {
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intent, SELECT_PIC_BY_PICK_PHOTO);
+    }
+
 
     private void takePhoto() {
         File outputImage = new File(Environment.getExternalStorageDirectory(), "output_image.jpg");
@@ -139,11 +179,6 @@ public class FoodEditActivity extends BaseActivity {
         startActivityForResult(intent, TAKE_PHOTO);
     }
 
-    private void initView() {
-        name = (EditText) findViewById(R.id.name);
-        detail = (EditText) findViewById(R.id.detail);
-        img = (ImageView) findViewById(R.id.img);
-    }
 
     private void submit() {
         // validate
@@ -157,34 +192,43 @@ public class FoodEditActivity extends BaseActivity {
             Toast.makeText(this, "介绍不能为空", Toast.LENGTH_SHORT).show();
             return;
         }
-        if (imageUri == null) {
+        if (TextUtils.isEmpty(imagePath)) {
             showToast("还没有上传照片哦！");
             return;
         }
+        Log.e("ml", imagePath);
         mFood.setName(nameString);
         mFood.setText(detailString);
-        mFood.setImagePath(imageUri.getPath());
+        mFood.setImagePath(imagePath);
         showNetProgress();
         editItem();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        switch (requestCode) {
-            case TAKE_PHOTO:
-                if (resultCode == RESULT_OK) {
-                    try {
-                        Bitmap bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
-                        img.setImageBitmap(bitmap);
-                        img.setVisibility(View.VISIBLE);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-                break;
+        Bitmap bitmap = null;
+        if (resultCode != RESULT_OK) {
+            return;
         }
+        try {
+            switch (requestCode) {
+                case TAKE_PHOTO:
+                    bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(imageUri));
+                    break;
+                case SELECT_PIC_BY_PICK_PHOTO:
+                    bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(data.getData()));
+                    break;
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        imagePath = Environment.getExternalStorageDirectory() + "/output_image.jpg";
+        ImageDealUtil.saveBitmap(bitmap, 50, Environment.getExternalStorageDirectory() + "", "output_image.jpg");
+        img.setImageBitmap(bitmap);
+        img.setVisibility(View.VISIBLE);
     }
-    protected void editItem(){
+
+    protected void editItem() {
         APIconfig.editFood(action, mFood, new CallBack() {
             @Override
             public void calBack(boolean flage, int code) {
@@ -193,6 +237,7 @@ public class FoodEditActivity extends BaseActivity {
                     case HttpConfig.REQUEST_SUCCESS:
                         showToast("修改成功");
                         APIconfig.refershFoods();
+                        finish();
                         break;
                     case HttpConfig.NET_ERR:
                         showToast("网络连接失败！");
@@ -202,5 +247,9 @@ public class FoodEditActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    public Toolbar getToolbar() {
+        return toolbar;
     }
 }
