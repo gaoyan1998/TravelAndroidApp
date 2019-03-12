@@ -1,8 +1,13 @@
 package com.ikiler.travel.ui.Food;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ikiler.travel.Adapter.FooditemRecyclerViewAdapter;
@@ -76,6 +81,7 @@ public class FoodListActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitleBarTrans();//全透明状态栏
         setContentView(R.layout.activity_food_show);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
@@ -87,34 +93,36 @@ public class FoodListActivity extends BaseActivity {
         initLiveData();
     }
 
-    private void initLiveData() {
-        model = FoodLiveDataModel.instance();
-        model.getMutableLiveDatas().observe(this, new Observer<List<Food>>() {
-            @Override
-            public void onChanged(List<Food> foods) {
-                adapter.setList(foods);
-                cancelNetDialog();
-            }
-        });
-    }
 
-    protected void refersh() {
-        APIconfig.refershFoods();
-    }
 
-    protected void itemClick(Food item) {
-        Log.e("ml", "跳转food");
-        model.getMutableLiveData().setValue(item);
-        startActivity(new Intent(getApplicationContext(), FoodEditActivity.class));
-    }
+        private void initLiveData() {
+            model = FoodLiveDataModel.instance();
+            model.getMutableLiveDatas().observe(this, new Observer<List<Food>>() {
+                @Override
+                public void onChanged(List<Food> foods) {
+                    adapter.setList(foods);
+                    cancelNetDialog();
+                }
+            });
+        }
 
-    protected void itemDelete(Food food, CallBack callBack) {
-        APIconfig.deleteFood(food.getId(), callBack);
-    }
+        protected void refersh () {
+            APIconfig.refershFoods();
+        }
 
-    @OnClick(R.id.fab)
-    public void onAddClicked() {
-        model.getMutableLiveData().setValue(null);
-        startActivity(new Intent(getApplicationContext(), FoodEditActivity.class));
+        protected void itemClick (Food item){
+            Log.e("ml", "跳转food");
+            model.getMutableLiveData().setValue(item);
+            startActivity(new Intent(getApplicationContext(), FoodEditActivity.class));
+        }
+
+        protected void itemDelete (Food food, CallBack callBack){
+            APIconfig.deleteFood(food.getId(), callBack);
+        }
+
+        @OnClick(R.id.fab)
+        public void onAddClicked () {
+            model.getMutableLiveData().setValue(null);
+            startActivity(new Intent(getApplicationContext(), FoodEditActivity.class));
+        }
     }
-}
