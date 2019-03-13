@@ -54,7 +54,10 @@ public class NoteActivity extends BaseActivity {
         adapter.setOnRecyclerItemClickLitener(new BaseRecyleAdapter.onRecyclerItemClickLitener() {
             @Override
             public void onRecyclerItemClick(Object object, int position) {
-                
+                Note note = (Note) object;
+                Intent intent = new Intent(getApplicationContext(),ShowNoteActivity.class);
+                intent.putExtra("content",note.getContent());
+                startActivity(intent);
             }
         });
         adapter.setOnRecyclerItemLongClicjk(new BaseRecyleAdapter.onRecyclerItemLongClicjk() {

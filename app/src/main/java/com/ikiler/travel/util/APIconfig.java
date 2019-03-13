@@ -1,5 +1,6 @@
 package com.ikiler.travel.util;
 
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.ikiler.travel.Base.BaseLiveData;
@@ -26,14 +27,15 @@ import java.util.Map;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import androidx.lifecycle.MutableLiveData;
+
 public class APIconfig {
 
     public static final String WeatherUrl = "https://free-api.heweather.net/s6/weather";
     public static final String FeedUrl = "http://www.travel5156.com/index.php?m=content&c=rss&rssid=9";
 
-//    public static final String BaseUrl = "http://192.168.1.105:8080";
-        public static final String BaseUrl = "http://106.13.63.57:8080";
-
+    //    public static final String BaseUrl = "http://192.168.1.105:8080";
+    public static final String BaseUrl = "http://106.13.63.57:8080";
 
 
     public static final String Login = BaseUrl + "/travel/Login";
@@ -48,21 +50,31 @@ public class APIconfig {
     public static final String PhoneManager = BaseUrl + "/travel/PhoneManager";
 
 
-    public static void addPhone(Phone phone) {
-        Log.e("ml", "ADD_Phone");
-        OkHttpUtil.postJsonBody(PhoneManager + "?action=add", GsonUtil.GsonString(phone), new OkHttpUtil.DataCallBack() {
+    private static <T> T execut(String url, Object bean, MutableLiveData<T> mutableLiveData, Class<T> cls) {
+        Log.e("ml", "EXECUT_NET_START");
+        OkHttpUtil.postJsonBody(url, GsonUtil.GsonString(bean), new OkHttpUtil.DataCallBack() {
             @Override
             public void calback(String data, boolean flage) {
-                if (flage) {
+                if (flage && !TextUtils.isEmpty(data)) {
                     Code code = GsonUtil.GsonToBean(data, Code.class);
                     if (code != null && code.getCode() == HttpConfig.REQUEST_SUCCESS) {
-                        LiveBus.getDefault().subscribe("Net").setValue(true);
-                        return;
-                    }
-                }
-                LiveBus.getDefault().subscribe("Net").setValue(false);
+                        LiveBus.getDefault().subscribe("NetState").setValue(code.getCode());
+                        T t = null;
+                        if (!TextUtils.isEmpty(code.getData()) && cls != null) {
+                            t = GsonUtil.GsonToBean(code.getData(), cls);
+                        }
+                        mutableLiveData.postValue(t);
+                    } else
+                        LiveBus.getDefault().subscribe("NetState").setValue(HttpConfig.NET_ERR);
+                } else
+                    LiveBus.getDefault().subscribe("NetState").setValue(HttpConfig.NET_ERR);
             }
         });
+        return null;
+    }
+
+    public static void addPhone(Phone phone,MutableLiveData mutableLiveData) {
+        execut(PhoneManager + "?action=add",phone,mutableLiveData,null);
     }
 
     public static void delPhone(Phone phone) {
@@ -255,7 +267,7 @@ public class APIconfig {
             public void calback(String data, boolean flage) {
                 if (flage) {
                     Code code = GsonUtil.GsonToBean(data, Code.class);
-                    if (code.getData().equals("null")){
+                    if (code.getData().equals("null")) {
                         return;
                     }
                     List<com.ikiler.travel.Model.bean.Food> foodList = GsonUtil.jsonToList(code.getData(), Food.class);
@@ -315,11 +327,11 @@ public class APIconfig {
             public void calback(String data, boolean flage) {
                 if (flage) {
                     Code code = GsonUtil.GsonToBean(data, Code.class);
-                    if (code.getData().equals("null")){
+                    if (code.getData().equals("null")) {
                         return;
                     }
-                    String data1 = code.getData().replaceAll("\\\\","");
-                    Log.e("ml",data1);
+                    String data1 = code.getData().replaceAll("\\\\", "");
+                    Log.e("ml", data1);
                     List<com.ikiler.travel.Model.bean.Food> foodList = GsonUtil.jsonToList(data1, Food.class);
                     model.getMutableLiveDatas().setValue(foodList);
                 }

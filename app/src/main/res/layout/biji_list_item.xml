@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="5dp">
+    android:padding="15dp">
 
     <TextView
         android:id="@+id/biji_title"
@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="middle"
         android:ems="16"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:gravity="center_vertical"
         android:singleLine="true"
         android:text="打到小日本，黄金啊哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈" />

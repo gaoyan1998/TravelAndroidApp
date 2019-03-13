@@ -13,6 +13,7 @@ import com.ikiler.travel.util.APIconfig;
 import com.ikiler.travel.util.LiveBus;
 
 import androidx.appcompat.widget.Toolbar;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,21 +51,15 @@ public class AddPhoneActivity extends BaseActivity {
         Phone phone = new Phone();
         phone.setName(mName);
         phone.setNumber(mNumber);
-        APIconfig.addPhone(phone);
-        LiveBus.getDefault().subscribe("Net").observe(AddPhoneActivity.this, new Observer<Object>() {
+        MutableLiveData mutableLiveData = new MutableLiveData<>();
+        mutableLiveData.observe(AddPhoneActivity.this, new Observer() {
             @Override
             public void onChanged(Object b) {
-                boolean flage = (boolean) b;
-                cancelNetDialog();
-                if (flage) {
-                    showToast("成功");
-                } else {
-                    showToast("失败");
-                }
+                showToast("成功");
                 APIconfig.refeshPhone();
                 finish();
             }
         });
-
+        APIconfig.addPhone(phone,mutableLiveData);
     }
 }

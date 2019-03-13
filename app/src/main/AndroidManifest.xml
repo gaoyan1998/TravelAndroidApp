@@ -35,7 +35,7 @@
     <application
         android:name=".util.App"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon_launch"
         android:label="@string/app_name"
         android:networkSecurityConfig="@xml/network_security_config"
         android:supportsRtl="true"
@@ -115,8 +115,11 @@
         <activity android:name=".ui.MapGuidActivity" />
         <activity android:name=".ui.WNaviGuideActivity" />
         <activity android:name=".ui.MusicPlayActivity" />
-        <activity android:name=".ui.fragement.FeedContentActivity">
-        </activity>
+        <activity android:name=".ui.fragement.FeedContentActivity"></activity>
+        <activity
+            android:name=".ui.ShowNoteActivity"
+            android:label="笔记内容"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>
