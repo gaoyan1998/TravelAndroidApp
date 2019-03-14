@@ -10,7 +10,6 @@ import com.ikiler.travel.Base.BaseActivity;
 import com.ikiler.travel.Model.bean.Phone;
 import com.ikiler.travel.R;
 import com.ikiler.travel.util.APIconfig;
-import com.ikiler.travel.util.LiveBus;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.lifecycle.MutableLiveData;

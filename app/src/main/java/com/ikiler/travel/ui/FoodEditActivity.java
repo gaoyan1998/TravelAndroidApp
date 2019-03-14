@@ -1,4 +1,4 @@
-package com.ikiler.travel.ui.Food;
+package com.ikiler.travel.ui;
 
 import android.content.Intent;
 import android.graphics.Bitmap;

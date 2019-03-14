@@ -705,6 +705,8 @@ public class TimeUtils {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        begin.getTime();
+        end.getTime();
         return (float) (now.getTime() - begin.getTime()) / (float) (end.getTime() - begin.getTime());
     }
 

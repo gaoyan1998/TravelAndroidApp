@@ -1,8 +1,10 @@
-package com.ikiler.travel.ui.weather;
+package com.ikiler.travel.Model;
 
 import android.animation.Animator;
 import android.content.Context;
 import android.graphics.Canvas;
+
+import com.ikiler.travel.ui.CustomView.DynamicWeatherView;
 
 /**
  * 默认动态天气

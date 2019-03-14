@@ -1,231 +1,88 @@
 package com.ikiler.travel.ui;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
+import android.view.MenuItem;
+import android.widget.FrameLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import android.util.Log;
-
 import com.google.android.material.navigation.NavigationView;
-import com.ikiler.travel.util.APIconfig;
 import com.ikiler.travel.Base.BaseActivity;
 import com.ikiler.travel.Model.bean.WeatherBean;
 import com.ikiler.travel.R;
-import com.ikiler.travel.ui.Food.FoodListActivity;
-import com.ikiler.travel.ui.Spot.SpotActivity;
+import com.ikiler.travel.ui.CustomView.HeaderWeather;
 import com.ikiler.travel.ui.fragement.FeedFragment;
 import com.ikiler.travel.ui.fragement.PersonalFragment;
 import com.ikiler.travel.ui.fragement.TrainTicketFragment;
-import com.ikiler.travel.ui.weather.BaseWeatherType;
-import com.ikiler.travel.ui.weather.DynamicWeatherView;
-import com.ikiler.travel.ui.weather.dynamic.FogType;
-import com.ikiler.travel.ui.weather.dynamic.HailType;
-import com.ikiler.travel.ui.weather.dynamic.HazeType;
-import com.ikiler.travel.ui.weather.dynamic.OvercastType;
-import com.ikiler.travel.ui.weather.dynamic.RainType;
-import com.ikiler.travel.ui.weather.dynamic.SandstormType;
-import com.ikiler.travel.ui.weather.dynamic.ShortWeatherInfo;
-import com.ikiler.travel.ui.weather.dynamic.SnowType;
-import com.ikiler.travel.ui.weather.dynamic.SunnyType;
-import com.ikiler.travel.util.GsonUtil;
-import com.ikiler.travel.util.OkHttpUtil;
+import com.ikiler.travel.util.APIconfig;
+import com.ikiler.travel.util.LiveBus;
+
+import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
-import android.view.MenuItem;
-import android.widget.TextView;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.Observer;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainContent extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private DynamicWeatherView dynamicWeatherView;
-    private TextView degree,loaction,weatherInfo,updataTime;
-    private WeatherBean.HeWeather6Bean weatherBean;
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
+    @BindView(R.id.content)
+    FrameLayout content;
+    @BindView(R.id.navigation)
+    BottomNavigationView navigation;
+    @BindView(R.id.nav_view)
+    NavigationView navigationView;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawer;
+
+
+    private HeaderWeather headerWeather;
     private FeedFragment feedFragment;
     private PersonalFragment personalFragment;
     private TrainTicketFragment trainTicketFragment;
-
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-                    if (null ==feedFragment)
-                        feedFragment = new FeedFragment();
-                    switchFragement(feedFragment);
-                    return true;
-                case R.id.navigation_train:
-                    if (null == trainTicketFragment)
-                        trainTicketFragment = new TrainTicketFragment();
-                    switchFragement(trainTicketFragment);
-                    return true;
-                case R.id.navigation_person:
-                    if (null == personalFragment)
-                        personalFragment = new PersonalFragment();
-                    switchFragement(personalFragment);
-                    return true;
-            }
-            return false;
-        }
-    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_content);
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        ButterKnife.bind(this);
         setSupportActionBar(toolbar);
+        inits();
+    }
 
-        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+    private void inits() {
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        dynamicWeatherView = navigationView.getHeaderView(0).findViewById(R.id.dynamic_header);
-        degree = navigationView.getHeaderView(0).findViewById(R.id.degree_text);
-        loaction = navigationView.getHeaderView(0).findViewById(R.id.location);
-        weatherInfo = navigationView.getHeaderView(0).findViewById(R.id.weather_info_text);
-        updataTime = navigationView.getHeaderView(0).findViewById(R.id.update_time_text);
-
-
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        headerWeather = navigationView.getHeaderView(0).findViewById(R.id.dynamic_header);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        initWeather();
         switchFragement(FeedFragment.instance());
-
-        String fromDate = new SimpleDateFormat("yyyy-MM-dd")
-                .format(new Date());
-    }
-
-    private void initWeather() {
-        Map<String,String> params = new HashMap();
-        params.put("location","auto_ip");
-        params.put("key","b2e77245d3424482ad0984ccb82f4b99");
-        OkHttpUtil.post(APIconfig.WeatherUrl, params, new OkHttpUtil.DataCallBack() {
+        LiveBus.getDefault().subscribe("Weather",WeatherBean.class).observe(this, new Observer<WeatherBean>() {
             @Override
-            public void calback(String data, boolean flage) {
-                Log.e("ml",data);
-                if (flage){
-                    WeatherBean weatherBean1 = GsonUtil.GsonToBean(data,WeatherBean.class);
-                    if (weatherBean1.getWeather().getStatus().equals("ok")){
-                        weatherBean = weatherBean1.getWeather();
-                        showWeather();
-                    }
-                }
+            public void onChanged(WeatherBean weatherBean) {
+                headerWeather.showWeather(weatherBean.getWeather());
             }
         });
-    }
-
-    private void showWeather() {
-        degree.setText(weatherBean.getNow().getTmp());
-        loaction.setText(weatherBean.getBasic().getLocation());
-        weatherInfo.setText(weatherBean.getNow().getCond_txt());
-        updataTime.setText("更新时间："+weatherBean.getUpdate().getLoc());
-//        final String[] items = new String[]{"晴（白天）", "晴（夜晚）", "多云", "阴", "雨", "雨夹雪",
-//                "雪", "冰雹", "雾", "雾霾", "沙尘暴"};
-
-        switchDynamicWeather(weatherBean.getNow().getCond_code());
-
-//        AlertDialog.Builder builder = new AlertDialog.Builder(MainContent.this);
-//        builder.setTitle("动态天气预览");
-//        builder.setCancelable(true);
-//        builder.setSingleChoiceItems(items, -1, new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.dismiss();
-//            }
-//        });
-//        builder.create().show();
-
-    }
-    private void switchDynamicWeather(String which) {
-        ShortWeatherInfo info = new ShortWeatherInfo();
-        info.setCode("100");
-        info.setWindSpeed("11");
-        BaseWeatherType type;
-        switch (which) {
-            case "100"://情白天
-                info.setSunrise("00:01");
-                info.setSunset("23:59");
-                info.setMoonrise("00:00");
-                info.setMoonset("00:01");
-                type = new SunnyType(MainContent.this, info);
-                break;
-            case "99"://晴（夜晚）
-                info.setSunrise("00:00");
-                info.setSunset("00:01");
-                info.setMoonrise("00:01");
-                info.setMoonset("23:59");
-                type = new SunnyType(getActivity(), info);
-                break;
-            case "101"://多云
-                info.setSunrise("00:01");
-                info.setSunset("23:59");
-                info.setMoonrise("00:00");
-                info.setMoonset("00:01");
-                SunnyType sunnyType = new SunnyType(getActivity(), info);
-                sunnyType.setCloud(true);
-                type = sunnyType;
-                break;
-            case "104"://阴
-                type = new OvercastType(getActivity(), info);
-                break;
-            case "300"://雨:
-                RainType rainType = new RainType(getActivity(), RainType.RAIN_LEVEL_2, RainType.WIND_LEVEL_2);
-                rainType.setFlashing(true);
-                type = rainType;
-                break;
-            case "404"://雨夹雪
-                RainType rainSnowType = new RainType(getActivity(), RainType.RAIN_LEVEL_1, RainType.WIND_LEVEL_1);
-                rainSnowType.setSnowing(true);
-                type = rainSnowType;
-                break;
-            case "400"://雪
-                type = new SnowType(getActivity(), SnowType.SNOW_LEVEL_2);
-                break;
-            case "410"://冰雹大雪暴雪
-                type = new HailType(getActivity());
-                break;
-            case "501"://雾
-                type = new FogType(getActivity());
-                break;
-            case "502"://雾霾
-                type = new HazeType(getActivity());
-                break;
-            case "507"://沙尘暴
-                type = new SandstormType(getActivity());
-                break;
-            default:
-                type = new SunnyType(getActivity(), info);
+        String city = getMmkv().decodeString("city");
+        if (TextUtils.isEmpty(city)){
+            city = "auto_ip";
         }
-        dynamicWeatherView.setType(type);
-
+        APIconfig.refershWeather(city);
     }
-
-    private Context getActivity() {
-        return MainContent.this;
-    }
-
 
     @Override
     public void onBackPressed() {
@@ -233,7 +90,7 @@ public class MainContent extends BaseActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            if(getSupportFragmentManager().getBackStackEntryCount() <= 0)//这里是取出我们返回栈存在Fragment的个数
+            if (getSupportFragmentManager().getBackStackEntryCount() <= 0)//这里是取出我们返回栈存在Fragment的个数
                 super.onBackPressed();
             else
                 getSupportFragmentManager().popBackStack();
@@ -249,7 +106,6 @@ public class MainContent extends BaseActivity
 
         if (id == R.id.nav_camera) {
             startActivity(new Intent(getApplicationContext(), FoodListActivity.class));
-//            transaction.replace(R.id.content, Weather.newInstance());
         } else if (id == R.id.nav_gallery) {
             startActivity(new Intent(getApplicationContext(), SpotActivity.class));
         } else if (id == R.id.nav_map) {
@@ -269,24 +125,51 @@ public class MainContent extends BaseActivity
 
     /**
      * 管理fragement
+     *
      * @param fragment 目标feagement
-     * */
-    private void switchFragement(Fragment fragment){
+     */
+    private void switchFragement(Fragment fragment) {
         boolean flage = false;
         FragmentManager manager = getSupportFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         List<Fragment> fragments = manager.getFragments();
-        for (Fragment item:fragments){
-            if (item != fragment){
+        for (Fragment item: fragments) {
+            if (item != fragment) {
                 transaction.hide(item);
-            }else {
+            } else {
                 flage = true;
             }
         }
-        if (!flage){
-            transaction.add(R.id.content,fragment);
+        if (!flage) {
+            transaction.add(R.id.content, fragment);
         }
         transaction.show(fragment);
         transaction.commitAllowingStateLoss();
     }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.navigation_home:
+                    if (null == feedFragment)
+                        feedFragment = new FeedFragment();
+                    switchFragement(feedFragment);
+                    return true;
+                case R.id.navigation_train:
+                    if (null == trainTicketFragment)
+                        trainTicketFragment = new TrainTicketFragment();
+                    switchFragement(trainTicketFragment);
+                    return true;
+                case R.id.navigation_person:
+                    if (null == personalFragment)
+                        personalFragment = new PersonalFragment();
+                    switchFragement(personalFragment);
+                    return true;
+            }
+            return false;
+        }
+    };
 }

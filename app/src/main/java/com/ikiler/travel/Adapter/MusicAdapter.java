@@ -13,7 +13,7 @@ import com.ikiler.travel.util.MusicUtils;
 
 import java.util.List;
 
-public class MyAdapter extends BaseAdapter {
+public class MusicAdapter extends BaseAdapter {
 	private Context context;
 	private List<Song> list;
 	private int position_flag = 0;
@@ -25,7 +25,7 @@ public class MyAdapter extends BaseAdapter {
 
 	private String Theme;
 
-	public MyAdapter(Context mainActivity, List<Song> list) {
+	public MusicAdapter(Context mainActivity, List<Song> list) {
 		this.context = mainActivity;
 		this.list = list;
 	}

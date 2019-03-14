@@ -1,4 +1,4 @@
-package com.ikiler.travel.ui.weather;
+package com.ikiler.travel.ui.CustomView;
 
 import android.animation.Animator;
 import android.content.Context;
@@ -9,6 +9,10 @@ import android.util.AttributeSet;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.animation.AnimationUtils;
+
+import com.ikiler.travel.Model.BaseWeatherType;
+import com.ikiler.travel.Model.DefaultType;
+import com.ikiler.travel.Model.IFakeWeather;
 
 /**
  * Created by liyu on 2017/8/16.

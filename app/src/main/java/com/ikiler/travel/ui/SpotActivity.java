@@ -1,14 +1,12 @@
-package com.ikiler.travel.ui.Spot;
+package com.ikiler.travel.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.ikiler.travel.ui.Food.FoodEditActivity;
 import com.ikiler.travel.util.APIconfig;
 import com.ikiler.travel.Model.CallBack;
 import com.ikiler.travel.Model.bean.Food;
-import com.ikiler.travel.ui.Food.FoodListActivity;
 
 public class SpotActivity extends FoodListActivity {
 

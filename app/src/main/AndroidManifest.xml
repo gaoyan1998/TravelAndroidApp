@@ -93,15 +93,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ui.Food.FoodListActivity"
+            android:name=".ui.FoodListActivity"
             android:label="美食管理" />
         <activity
-            android:name=".ui.Food.FoodEditActivity"
+            android:name=".ui.FoodEditActivity"
             android:label="美食编辑" />
         <activity
-            android:name=".ui.Spot.SpotActivity"
+            android:name=".ui.SpotActivity"
             android:label="景点管理" />
-        <activity android:name=".ui.Spot.SpotEditActivity" />
+        <activity android:name=".ui.SpotEditActivity" />
         <activity android:name=".ui.TicketShowActivity" />
         <activity
             android:name=".ui.MyTicketActivity"
@@ -115,11 +115,12 @@
         <activity android:name=".ui.MapGuidActivity" />
         <activity android:name=".ui.WNaviGuideActivity" />
         <activity android:name=".ui.MusicPlayActivity" />
-        <activity android:name=".ui.fragement.FeedContentActivity"></activity>
+        <activity android:name=".ui.fragement.FeedContentActivity" />
         <activity
             android:name=".ui.ShowNoteActivity"
             android:label="笔记内容"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme" />
+        <activity android:name=".ui.CitySelectActivity"></activity>
     </application>
 
 </manifest>

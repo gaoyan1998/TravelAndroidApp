@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.ikiler.travel.Model.CallBack;
 import com.ikiler.travel.Model.bean.User;
-import com.ikiler.travel.ui.Food.FoodEditActivity;
 import com.tencent.mmkv.MMKV;
 
 import androidx.annotation.Nullable;

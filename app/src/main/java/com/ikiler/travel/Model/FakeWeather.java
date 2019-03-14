@@ -1,4 +1,4 @@
-package com.ikiler.travel.ui.weather;
+package com.ikiler.travel.Model;
 
 
 import com.ikiler.travel.R;

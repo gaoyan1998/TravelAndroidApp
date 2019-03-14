@@ -1,10 +1,9 @@
-package com.ikiler.travel.ui.Spot;
+package com.ikiler.travel.ui;
 
 import android.os.Bundle;
 
 import com.ikiler.travel.util.APIconfig;
 import com.ikiler.travel.Model.CallBack;
-import com.ikiler.travel.ui.Food.FoodEditActivity;
 import com.ikiler.travel.util.HttpConfig;
 
 public class SpotEditActivity extends FoodEditActivity {

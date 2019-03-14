@@ -1,4 +1,4 @@
-package com.ikiler.travel.ui.weather.dynamic;
+package com.ikiler.travel.Model;
 
 import android.animation.Animator;
 import android.animation.ValueAnimator;
@@ -8,44 +8,53 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.view.animation.AccelerateInterpolator;
+ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 
-
 import com.ikiler.travel.R;
-import com.ikiler.travel.ui.weather.BaseWeatherType;
-import com.ikiler.travel.ui.weather.DynamicWeatherView;
+import com.ikiler.travel.ui.CustomView.DynamicWeatherView;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
+
+import androidx.annotation.IntDef;
 
 /**
  * Created by liyu on 2017/8/18.
  */
 
-public class HailType extends BaseWeatherType {
+public class SnowType extends BaseWeatherType {
 
-    private ArrayList<Hail> hails;
+    public static final int SNOW_LEVEL_1 = 20;//小雪级别
+    public static final int SNOW_LEVEL_2 = 40;//中雪级别
+    public static final int SNOW_LEVEL_3 = 60;//大到暴雪级别
+
+    private ArrayList<Snow> mSnows;
 
     private Paint mPaint;
 
-    private Hail hail;
+    private Snow snow;
 
     float transFactor;
+
+    private int snowLevel = SNOW_LEVEL_1;
 
     Bitmap bitmap;
 
     Matrix matrix;
 
-    public HailType(Context context) {
+    public SnowType(Context context, @SnowLevel int snowLevel) {
         super(context);
-        setColor(0xFF0CB399);
+        setColor(0xFF62B1FF);
+        this.snowLevel = snowLevel;
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setColor(Color.WHITE);
         mPaint.setStrokeWidth(5);
-        hails = new ArrayList<>();
+        mSnows = new ArrayList<>();
         matrix = new Matrix();
-        bitmap = decodeResource(bitmap, R.drawable.ic_hail_ground);
+        bitmap = decodeResource(bitmap, R.drawable.ic_snow_ground);
     }
 
     @Override
@@ -55,38 +64,34 @@ public class HailType extends BaseWeatherType {
         mPaint.setAlpha(255);
         matrix.reset();
         matrix.postScale(0.25f, 0.25f);
-        matrix.postTranslate(transFactor, getHeight() - bitmap.getHeight() * 0.25f);
+        matrix.postTranslate(transFactor, getHeight() - bitmap.getHeight() * 0.23f);
         canvas.drawBitmap(bitmap, matrix, mPaint);
-
-        for (int i = 0; i < hails.size(); i++) {
-            hail = hails.get(i);
-            mPaint.setAlpha((int) (255 * ((float) hail.y / (float) getHeight())));
-            canvas.save();
-            canvas.rotate(45, hail.x + hail.size / 2, hail.y + hail.size / 2);
-            canvas.drawRect(hail.x, hail.y, hail.x + hail.size, hail.y + hail.size, mPaint);
-            canvas.restore();
+        for (int i = 0; i < mSnows.size(); i++) {
+            snow = mSnows.get(i);
+            mPaint.setAlpha((int) (255 * ((float) snow.y / (float) getHeight())));
+            canvas.drawCircle(snow.x, snow.y, snow.size, mPaint);
         }
-        for (int i = 0; i < hails.size(); i++) {
-            hail = hails.get(i);
-            hail.y += hail.speed;
-            if (hail.y > getHeight() + hail.size * 2) {
-                hail.y = 0 - hail.size * 2;
-                hail.x = getRandom(0, getWidth());
+        for (int i = 0; i < mSnows.size(); i++) {
+            snow = mSnows.get(i);
+            snow.y += snow.speed;
+            if (snow.y > getHeight() + snow.size * 2) {
+                snow.y = 0 - snow.size * 2;
+                snow.x = getRandom(0, getWidth());
             }
         }
     }
 
     @Override
     public void generateElements() {
-        hails.clear();
-        for (int i = 0; i < 15; i++) {
-            Hail hail = new Hail(
+        mSnows.clear();
+        for (int i = 0; i < snowLevel; i++) {
+            Snow snow = new Snow(
                     getRandom(0, getWidth()),
                     getRandom(0, getHeight()),
-                    getRandom(dp2px(3), dp2px(8)),
-                    getRandom(8, 18)
+                    getRandom(dp2px(1), dp2px(6)),
+                    getRandom(1, snowLevel / 12)
             );
-            hails.add(hail);
+            mSnows.add(snow);
         }
     }
 
@@ -126,13 +131,25 @@ public class HailType extends BaseWeatherType {
         animator.start();
     }
 
-    private class Hail {
+    public static class Snow {
+        /**
+         * 雪花 x 轴坐标
+         */
         int x;
+        /**
+         * 雪花 y 轴坐标
+         */
         int y;
+        /**
+         * 雪花大小
+         */
         int size;
+        /**
+         * 雪花移动速度
+         */
         int speed;
 
-        public Hail(int x, int y, int size, int speed) {
+        public Snow(int x, int y, int size, int speed) {
             this.x = x;
             this.y = y;
             this.size = size;
@@ -141,4 +158,8 @@ public class HailType extends BaseWeatherType {
 
     }
 
+    @IntDef({SNOW_LEVEL_1, SNOW_LEVEL_2, SNOW_LEVEL_3})
+    @Retention(RetentionPolicy.SOURCE)
+    public @interface SnowLevel {
+    }
 }

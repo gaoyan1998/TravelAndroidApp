@@ -2,14 +2,10 @@ package com.ikiler.travel.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.Manifest;
 import android.graphics.Point;
 import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.View;
-import android.view.Window;
-import android.view.animation.AnimationUtils;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -18,7 +14,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.ikiler.travel.Adapter.MyAdapter;
+import com.ikiler.travel.Adapter.MusicAdapter;
 import com.ikiler.travel.Model.Song;
 import com.ikiler.travel.R;
 import com.ikiler.travel.ui.CustomView.GradientTextView;
@@ -34,7 +30,7 @@ public class MusicPlayActivity extends AppCompatActivity {
     //    private SharedPreferences sharedPreferences;
     private ListView listview;
     private List<Song> list;
-    private MyAdapter adapter;
+    private MusicAdapter adapter;
     private MediaPlayer mplayer = new MediaPlayer();
     private GradientTextView text_main;
     private SeekBar seekBar;
@@ -219,7 +215,7 @@ public class MusicPlayActivity extends AppCompatActivity {
 
         list = new ArrayList<Song>();
         list = MusicUtils.getMusicData(MusicPlayActivity.this);
-        adapter = new MyAdapter(MusicPlayActivity.this, list);
+        adapter = new MusicAdapter(MusicPlayActivity.this, list);
         // 标记正在播放的音乐条目为主题色
         adapter.setFlag(currentposition);
         adapter.notifyDataSetChanged();

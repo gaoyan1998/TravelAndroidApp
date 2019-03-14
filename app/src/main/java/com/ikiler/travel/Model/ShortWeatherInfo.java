@@ -1,4 +1,4 @@
-package com.ikiler.travel.ui.weather.dynamic;
+package com.ikiler.travel.Model;
 
 /**
  * Created by liyu on 2017/8/19.

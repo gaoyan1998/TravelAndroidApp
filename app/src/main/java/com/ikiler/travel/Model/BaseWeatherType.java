@@ -1,4 +1,4 @@
-package com.ikiler.travel.ui.weather;
+package com.ikiler.travel.Model;
 
 import android.animation.Animator;
 import android.animation.ArgbEvaluator;
@@ -10,6 +10,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.view.animation.LinearInterpolator;
+
+import com.ikiler.travel.ui.CustomView.DynamicWeatherView;
 
 import java.util.Random;
 

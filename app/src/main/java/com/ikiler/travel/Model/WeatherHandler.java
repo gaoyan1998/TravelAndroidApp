@@ -1,4 +1,4 @@
-package com.ikiler.travel.ui.weather.dynamic;
+package com.ikiler.travel.Model;
 
 import android.content.Context;
 import android.graphics.Canvas;

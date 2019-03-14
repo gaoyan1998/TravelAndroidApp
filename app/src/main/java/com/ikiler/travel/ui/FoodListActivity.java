@@ -1,13 +1,8 @@
-package com.ikiler.travel.ui.Food;
+package com.ikiler.travel.ui;
 
 import android.content.Intent;
-import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.ikiler.travel.Adapter.FooditemRecyclerViewAdapter;
@@ -85,17 +80,20 @@ public class FoodListActivity extends BaseActivity {
         setContentView(R.layout.activity_food_show);
         ButterKnife.bind(this);
         setSupportActionBar(toolbar);
-        recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
-        recyclerView.setAdapter(adapter);
-        adapter.setOnRecyclerItemClickLitener(mListener);
-        adapter.setOnRecyclerItemLongClicjk(mOnListLongClickListener);
+        initView();
         refersh();
         initLiveData();
     }
 
+    private void initView() {
+        recyclerView.setLayoutManager(new GridLayoutManager(getApplicationContext(), 2));
+        recyclerView.setAdapter(adapter);
+        adapter.setOnRecyclerItemClickLitener(mListener);
+        adapter.setOnRecyclerItemLongClicjk(mOnListLongClickListener);
+    }
 
 
-        private void initLiveData() {
+    private void initLiveData() {
             model = FoodLiveDataModel.instance();
             model.getMutableLiveDatas().observe(this, new Observer<List<Food>>() {
                 @Override

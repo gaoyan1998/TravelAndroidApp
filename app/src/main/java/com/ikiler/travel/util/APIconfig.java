@@ -11,10 +11,12 @@ import com.ikiler.travel.Model.RssItem;
 import com.ikiler.travel.Model.bean.Addr;
 import com.ikiler.travel.Model.bean.Code;
 import com.ikiler.travel.Model.bean.Food;
+import com.ikiler.travel.Model.bean.HotCity;
 import com.ikiler.travel.Model.bean.Note;
 import com.ikiler.travel.Model.bean.PersonTicket;
 import com.ikiler.travel.Model.bean.Phone;
 import com.ikiler.travel.Model.bean.Ticket;
+import com.ikiler.travel.Model.bean.WeatherBean;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.XMLReader;
@@ -31,12 +33,16 @@ import androidx.lifecycle.MutableLiveData;
 
 public class APIconfig {
 
-    public static final String WeatherUrl = "https://free-api.heweather.net/s6/weather";
-    public static final String FeedUrl = "http://www.travel5156.com/index.php?m=content&c=rss&rssid=9";
-
     //    public static final String BaseUrl = "http://192.168.1.105:8080";
     public static final String BaseUrl = "http://106.13.63.57:8080";
 
+
+
+
+    public static final String WeatherUrl = "https://free-api.heweather.net/s6/weather";
+    public static final String FeedUrl = "http://www.travel5156.com/index.php?m=content&c=rss&rssid=9";
+    public static final String HotCityUrl = "https://search.heweather.net/top";
+    public static final String CitySearch = "https://search.heweather.net/find";
 
     public static final String Login = BaseUrl + "/travel/Login";
     public static final String Register = BaseUrl + "/travel/register";
@@ -73,12 +79,44 @@ public class APIconfig {
         return null;
     }
 
-    public static void addPhone(Phone phone,MutableLiveData mutableLiveData) {
-        execut(PhoneManager + "?action=add",phone,mutableLiveData,null);
+    public static void refershWeather(String location) {
+        OkHttpUtil.postJsonBody(WeatherUrl + "?key=b2e77245d3424482ad0984ccb82f4b99&location="+location, "", new OkHttpUtil.DataCallBack() {
+            @Override
+            public void calback(String data, boolean flage) {
+                if (flage && !TextUtils.isEmpty(data)) {
+                    WeatherBean weatherBean = GsonUtil.GsonToBean(data, WeatherBean.class);
+                    LiveBus.getDefault().subscribe("Weather").postValue(weatherBean);
+                }
+            }
+        });
+    }
+
+    public static void refershHotCity(String city) {
+        String url ;
+        if (city.equals("")){
+            url = HotCityUrl + "?group=cn&number=30&key=b2e77245d3424482ad0984ccb82f4b99";
+        }else {
+            url = CitySearch + "?mode=match&group=cn&number=30&key=b2e77245d3424482ad0984ccb82f4b99&location="+city;
+        }
+        OkHttpUtil.postJsonBody(url, "", new OkHttpUtil.DataCallBack() {
+            @Override
+            public void calback(String data, boolean flage) {
+                if (flage && !TextUtils.isEmpty(data)) {
+                    HotCity hotCity = GsonUtil.GsonToBean(data, HotCity.class);
+                    if (hotCity.getHeWeather6().get(0).getStatus().equals("ok"))
+                        LiveBus.getDefault().subscribe("City").postValue(hotCity);
+                }
+            }
+        });
+    }
+
+    public static void addPhone(Phone phone, MutableLiveData mutableLiveData) {
+        execut(PhoneManager + "?action=add", phone, mutableLiveData, null);
     }
 
     public static void delPhone(Phone phone) {
         Log.e("ml", "DEL_PHONE");
+        execut(PhoneManager + "?id=" + phone.getId() + "&action=delete", null, LiveBus.getDefault().subscribe("PhoneNet"), null);
         Map<String, String> map = new HashMap<>();
         map.put("id", phone.getId() + "");
         map.put("action", "delete");
@@ -174,7 +212,7 @@ public class APIconfig {
             public void calback(String data, boolean flage) {
                 if (flage) {
                     Code code = GsonUtil.GsonToBean(data, Code.class);
-                    if (code.getCode() == HttpConfig.REQUEST_SUCCESS) {
+                    if (code != null && code.getCode() == HttpConfig.REQUEST_SUCCESS) {
                         List<Addr> list = GsonUtil.jsonToList(code.getData(), Addr.class);
                         liveData.getMutableLiveDatas().setValue(list);
                     }
@@ -190,7 +228,7 @@ public class APIconfig {
             public void calback(String data, boolean flage) {
                 if (flage) {
                     Code code = GsonUtil.GsonToBean(data, Code.class);
-                    if (code.getCode() == HttpConfig.REQUEST_SUCCESS) {
+                    if (code != null && code.getCode() == HttpConfig.REQUEST_SUCCESS) {
                         List<Ticket> list = GsonUtil.jsonToList(code.getData(), Ticket.class);
                         Log.e("ml", code.getData());
                         Log.e("ml", "ReceiveNETTTTTTTTT" + list.get(0).getTimeFrom());
@@ -211,7 +249,7 @@ public class APIconfig {
             public void calback(String data, boolean flage) {
                 if (flage) {
                     Code code = GsonUtil.GsonToBean(data, Code.class);
-                    if (code.getCode() == HttpConfig.REQUEST_SUCCESS) {
+                    if (code != null && code.getCode() == HttpConfig.REQUEST_SUCCESS) {
                         LiveBus.getDefault().subscribe("Net").setValue(true);
                         return;
                     }
@@ -267,7 +305,7 @@ public class APIconfig {
             public void calback(String data, boolean flage) {
                 if (flage) {
                     Code code = GsonUtil.GsonToBean(data, Code.class);
-                    if (code.getData().equals("null")) {
+                    if (code != null && code.getData().equals("null")) {
                         return;
                     }
                     List<com.ikiler.travel.Model.bean.Food> foodList = GsonUtil.jsonToList(code.getData(), Food.class);
@@ -288,7 +326,7 @@ public class APIconfig {
             public void calback(String data, boolean flage) {
                 if (flage) {
                     Code code = GsonUtil.GsonToBean(data, Code.class);
-                    if (code.getCode() == HttpConfig.REQUEST_SUCCESS) {
+                    if (code != null && code.getCode() == HttpConfig.REQUEST_SUCCESS) {
                         callBack.calBack(true, code.getCode());
                     } else {
                         callBack.calBack(false, code.getCode());
@@ -308,7 +346,7 @@ public class APIconfig {
             public void calback(String data, boolean flage) {
                 if (flage) {
                     Code code = GsonUtil.GsonToBean(data, Code.class);
-                    if (code.getCode() == HttpConfig.REQUEST_SUCCESS) {
+                    if (code != null && code.getCode() == HttpConfig.REQUEST_SUCCESS) {
                         callBack.calBack(true, code.getCode());
                     } else callBack.calBack(false, code.getCode());
                 } else callBack.calBack(false, HttpConfig.NET_ERR);
@@ -350,7 +388,7 @@ public class APIconfig {
             public void calback(String data, boolean flage) {
                 if (flage) {
                     Code code = GsonUtil.GsonToBean(data, Code.class);
-                    if (code.getCode() == HttpConfig.REQUEST_SUCCESS) {
+                    if (code != null && code.getCode() == HttpConfig.REQUEST_SUCCESS) {
                         callBack.calBack(true, code.getCode());
                     } else {
                         callBack.calBack(false, code.getCode());
@@ -370,7 +408,7 @@ public class APIconfig {
             public void calback(String data, boolean flage) {
                 if (flage) {
                     Code code = GsonUtil.GsonToBean(data, Code.class);
-                    if (code.getCode() == HttpConfig.REQUEST_SUCCESS) {
+                    if (code != null && code.getCode() == HttpConfig.REQUEST_SUCCESS) {
                         callBack.calBack(true, code.getCode());
                     } else callBack.calBack(false, code.getCode());
                 } else callBack.calBack(false, HttpConfig.NET_ERR);

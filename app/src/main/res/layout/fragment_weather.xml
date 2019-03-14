@@ -6,7 +6,7 @@
     tools:context=".ui.fragement.Weather">
 
     <!-- TODO: Update blank fragment layout -->
-    <com.ikiler.travel.ui.weather.DynamicWeatherView
+    <com.ikiler.travel.ui.CustomView.DynamicWeatherView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/dynamic"/>

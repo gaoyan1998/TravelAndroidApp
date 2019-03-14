@@ -1,4 +1,4 @@
-package com.ikiler.travel.ui.weather.dynamic;
+package com.ikiler.travel.Model;
 
 import android.animation.Animator;
 import android.animation.AnimatorSet;
@@ -17,8 +17,7 @@ import android.view.animation.AccelerateInterpolator;
 import android.view.animation.OvershootInterpolator;
 
 import com.ikiler.travel.R;
-import com.ikiler.travel.ui.weather.BaseWeatherType;
-import com.ikiler.travel.ui.weather.DynamicWeatherView;
+import com.ikiler.travel.ui.CustomView.DynamicWeatherView;
 
 /**
  * Created by liyu on 2017/8/19.

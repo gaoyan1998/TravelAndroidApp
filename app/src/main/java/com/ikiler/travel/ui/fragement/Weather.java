@@ -14,17 +14,17 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.ikiler.travel.R;
-import com.ikiler.travel.ui.weather.BaseWeatherType;
-import com.ikiler.travel.ui.weather.DynamicWeatherView;
-import com.ikiler.travel.ui.weather.dynamic.FogType;
-import com.ikiler.travel.ui.weather.dynamic.HailType;
-import com.ikiler.travel.ui.weather.dynamic.HazeType;
-import com.ikiler.travel.ui.weather.dynamic.OvercastType;
-import com.ikiler.travel.ui.weather.dynamic.RainType;
-import com.ikiler.travel.ui.weather.dynamic.SandstormType;
-import com.ikiler.travel.ui.weather.dynamic.ShortWeatherInfo;
-import com.ikiler.travel.ui.weather.dynamic.SnowType;
-import com.ikiler.travel.ui.weather.dynamic.SunnyType;
+import com.ikiler.travel.Model.BaseWeatherType;
+import com.ikiler.travel.ui.CustomView.DynamicWeatherView;
+import com.ikiler.travel.Model.FogType;
+import com.ikiler.travel.Model.HailType;
+import com.ikiler.travel.Model.HazeType;
+import com.ikiler.travel.Model.OvercastType;
+import com.ikiler.travel.Model.RainType;
+import com.ikiler.travel.Model.SandstormType;
+import com.ikiler.travel.Model.ShortWeatherInfo;
+import com.ikiler.travel.Model.SnowType;
+import com.ikiler.travel.Model.SunnyType;
 
 
 public class Weather extends Fragment {

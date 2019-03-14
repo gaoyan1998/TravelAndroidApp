@@ -7,71 +7,9 @@
     android:orientation="vertical"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-    <com.ikiler.travel.ui.weather.DynamicWeatherView
+    <com.ikiler.travel.ui.CustomView.HeaderWeather
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/dynamic_header"/>
-
-    <RelativeLayout
-        android:layout_marginRight="20dp"
-        android:id="@+id/weather_now_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <TextView
-            android:id="@+id/degree_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:gravity="center"
-            android:text="20"
-            android:textColor="@color/colorFont"
-            android:textSize="65sp" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/degree_text"
-            android:layout_toRightOf="@+id/degree_text"
-            android:text="°"
-            android:textColor="@color/colorFont"
-            android:textSize="65sp" />
-
-        <TextView
-            android:id="@+id/weather_info_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/degree_text"
-            android:layout_centerHorizontal="true"
-            android:text="多云"
-            android:textColor="@color/colorFont"
-            android:textSize="25sp" />
-
-        <TextView
-            android:id="@+id/update_time_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="10dp"
-            android:text="20180908"
-            android:textColor="@color/colorFont"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/location"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:text="沈阳"
-            android:textSize="20sp" />
-
-
-    </RelativeLayout>
-
 
 </RelativeLayout>
