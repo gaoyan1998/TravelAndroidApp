@@ -33,11 +33,7 @@ import androidx.lifecycle.MutableLiveData;
 
 public class APIconfig {
 
-    //    public static final String BaseUrl = "http://192.168.1.105:8080";
-    public static final String BaseUrl = "http://106.13.63.57:8080";
-
-
-
+        public static final String BaseUrl = "http://192.168.1.105:8080";
 
     public static final String WeatherUrl = "https://free-api.heweather.net/s6/weather";
     public static final String FeedUrl = "http://www.travel5156.com/index.php?m=content&c=rss&rssid=9";
